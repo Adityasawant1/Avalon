@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
                                 child: Text(
                               "Sign In",
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                               ),
                             )),
                           ),
