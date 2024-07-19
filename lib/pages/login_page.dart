@@ -79,10 +79,51 @@ class LoginPage extends StatelessWidget {
                             spreadRadius: 0.5,
                             color: Colors.grey.withOpacity(0.1))
                       ]),
-                  child: Stack(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text("Register"),
-                      Text("Register"),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            print("Niraj is gay");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(
+                                  10), // Add border radius here
+                            ),
+                            child: Center(
+                                child: Text(
+                              "Register",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            )),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            print("chomu is gay");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // Ensure there's a color to see the border radius effect
+                              borderRadius: BorderRadius.circular(
+                                  10), // Add border radius here
+                            ),
+                            child: Center(
+                                child: Text(
+                              "Sign In",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
