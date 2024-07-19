@@ -12,22 +12,85 @@ class LoginPage extends StatelessWidget {
         color: backgroundColor1,
         width: size.width,
         height: size.height,
-        child: Stack(children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: size.height * 0.53,
-              width: size.width,
-              decoration: BoxDecoration(
-                  color: primaryColor,
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/images/login.png",
+        child: Column(
+          children: [
+            Stack(children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: size.height * 0.53,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(40),
+                          bottomRight: Radius.circular(40)),
+                      image: const DecorationImage(
+                        image: AssetImage(
+                          "assets/images/login.png",
+                        ),
+                      )),
+                ),
+              )
+            ]),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40.0,
+              ),
+              child: Container(
+                child: const Column(
+                  children: [
+                    Text(
+                      "Sustainable Living \nStarts with You",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  )),
+                    Text(
+                      "Work towards an inclusive, sustainable future \nthat benefits both people and the planet",
+                      style: TextStyle(
+                        fontSize: 13.3,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
             ),
-          )
-        ]),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: size.width * 0.8,
+                  height: size.height * 0.08,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 5,
+                            spreadRadius: 0.5,
+                            color: Colors.grey.withOpacity(0.1))
+                      ]),
+                  child: Stack(
+                    children: [
+                      Text("Register"),
+                      Text("Register"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
