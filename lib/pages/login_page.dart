@@ -94,7 +94,7 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   10), // Add border radius here
                             ),
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "Register",
                               style: TextStyle(fontWeight: FontWeight.w600),
@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   10), // Add border radius here
                             ),
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "Sign In",
                               style: TextStyle(
