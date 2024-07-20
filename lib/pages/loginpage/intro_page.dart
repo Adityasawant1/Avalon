@@ -1,8 +1,44 @@
+import 'package:avalon/pages/loginpage/signin_page.dart';
+import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
+
+  @override
+  State<IntroPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<IntroPage> {
+  Color btnSignIn = Colors.transparent;
+  Color btnSignUp = Colors.white;
+
+  void onClickSignIn() {
+    setState(() {
+      btnSignIn = Colors.white;
+      btnSignUp = Colors.transparent;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignInPage(),
+      ),
+    );
+  }
+
+  void onClickSignUp() {
+    setState(() {
+      btnSignIn = Colors.transparent;
+      btnSignUp = Colors.white;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignUpPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +122,11 @@ class LoginPage extends StatelessWidget {
                         flex: 1,
                         child: GestureDetector(
                           onTap: () {
-                            print("Niraj is gay");
+                            onClickSignUp();
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: btnSignUp,
                               borderRadius: BorderRadius.circular(
                                   10), // Add border radius here
                             ),
@@ -106,11 +142,11 @@ class LoginPage extends StatelessWidget {
                         flex: 1,
                         child: GestureDetector(
                           onTap: () {
-                            print("chomu is gay");
+                            onClickSignIn();
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              // Ensure there's a color to see the border radius effect
+                              color: btnSignIn,
                               borderRadius: BorderRadius.circular(
                                   10), // Add border radius here
                             ),
