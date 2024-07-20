@@ -102,6 +102,27 @@ class SignInPage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(height: size.height * 0.05,),
+                        // Sign In Button
+                        GestureDetector(
+                          onTap: (){},
+                          child: Container(
+                            height: size.height * 0.08,
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: buttonColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(child: Text("Sign In",
+                            style:TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                          
+                            )
+                            )),
+                          ),
+                        )
                       ],
                     ),
                   ),
