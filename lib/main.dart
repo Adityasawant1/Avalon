@@ -1,7 +1,13 @@
+import 'package:avalon/firebase_options.dart';
 import 'package:avalon/pages/loginpage/intro_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+
   runApp(const MyApp());
 }
 
