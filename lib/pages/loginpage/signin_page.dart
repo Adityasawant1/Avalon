@@ -58,7 +58,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.1,
+                    height: size.height * 0.06,
                   ),
                   Form(
                     key: _formkey,
@@ -198,10 +198,75 @@ class _SignInPageState extends State<SignInPage> {
                                       ))),
                             ),
                           ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 2,
+                                width: size.width * 0.2,
+                                color: Colors.black12,
+                              ),
+                              Text(
+                                "  Or continue with   ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor2,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Container(
+                                height: 2,
+                                width: size.width * 0.2,
+                                color: Colors.black12,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: size.height * 0.04,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        height: size.height * 0.08,
+                        width: size.width * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: size.height * 0.08,
+                        width: size.width * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: size.height * 0.08,
+                        width: size.width * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
