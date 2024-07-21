@@ -1,3 +1,4 @@
+import 'package:avalon/pages/loginpage/forgot_pass.dart';
 import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
@@ -152,7 +153,13 @@ class _SignInPageState extends State<SignInPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ForgotPasswordPage()));
+                          },
                           child: Text(
                             "Recover Password",
                             style: TextStyle(

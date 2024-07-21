@@ -1,3 +1,4 @@
+import 'package:avalon/pages/loginpage/signin_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -351,7 +352,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width: size.width * 0.01),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignInPage(),
+                          ),
+                        );
                       },
                       child: const Text(
                         " Sign In",
