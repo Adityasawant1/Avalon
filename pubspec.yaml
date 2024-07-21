@@ -38,6 +38,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   email_validator: ^3.0.0
   flutter_shake_animated: ^0.0.5
+  firebase_core: ^3.2.0
+  cloud_firestore: ^5.1.0
   
   
 
