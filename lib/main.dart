@@ -1,4 +1,6 @@
-import 'package:avalon/pages/loginpage/intro_page.dart';
+//import 'package:avalon/pages/loginpage/intro_page.dart';
+import 'package:avalon/pages/loginpage/signin_page.dart';
+//import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Avalon ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home: const IntroPage(),
+      home: const SignInPage(),
     );
   }
 }
