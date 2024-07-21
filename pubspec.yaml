@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_nav_bar: ^5.0.6
   email_validator: ^3.0.0
-  font_awesome_flutter: ^10.7.0
+  
   
 
 dev_dependencies:
