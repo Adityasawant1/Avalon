@@ -71,12 +71,17 @@ class _SignInPageState extends State<SignInPage> {
                             vertical: 18,
                             horizontal: 22,
                           ),
+                          labelText: "Email",
                           hintText: "Enter Email",
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         validator: (value) {
@@ -103,6 +108,7 @@ class _SignInPageState extends State<SignInPage> {
                             vertical: 18,
                             horizontal: 22,
                           ),
+                          labelText: "Password",
                           hintText: "Enter Password",
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -121,6 +127,10 @@ class _SignInPageState extends State<SignInPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         validator: (value) {
