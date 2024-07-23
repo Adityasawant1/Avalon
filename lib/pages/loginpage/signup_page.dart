@@ -1,7 +1,10 @@
+import 'package:avalon/Service/auth_service.dart';
 import 'package:avalon/pages/loginpage/signin_page.dart';
+import 'package:avalon/pages/loginpage/verify_otp.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -17,6 +20,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final _confirmPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
+  String _errorMessage = '';
+  String _successMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +206,64 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       SizedBox(height: size.height * 0.05),
+                      if (_errorMessage.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            _errorMessage,
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      if (_successMessage.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            _successMessage,
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
                       // Sign Up Button
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            // Perform sign-up logic
+                            setState(() {
+                              _isLoading = true;
+                              _errorMessage = '';
+                              _successMessage = '';
+                            });
+                            AuthService authService = AuthService();
+                            var result = await authService.registerWithEmailAndPassword(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                            setState(() {
+                              _isLoading = false;
+                            });
+                            if (result == "success") {
+                              setState(() {
+                                _successMessage = 'Successfully registered!';
+                                _emailController.clear();
+                                _passwordController.clear();
+                                _confirmPasswordController.clear();
+                              });
+                              Future.delayed(Duration(seconds: 2), () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OtpVerificationPage(
+                                      email: _emailController.text.toString(),),
+                                  ),
+                                );
+                              });
+                            } else if (result == 'Email is already registered. Please sign in.') {
+                              setState(() {
+                                _errorMessage = result!;
+                              });
+                            } else {
+                              setState(() {
+                                _errorMessage = 'Sign up failed. Please try again.';
+                              });
+                            }
                           }
                         },
                         child: Container(
@@ -221,44 +280,48 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                             ],
                           ),
-                          child: const Center(
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
+                          child: Center(
+                            child: _isLoading
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  )
+                                : Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.03),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 2,
-                            width: size.width * 0.2,
-                            color: Colors.black12,
-                          ),
-                          Text(
-                            "  Or SignUp with   ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: textColor2,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Container(
-                            height: 2,
-                            width: size.width * 0.2,
-                            color: Colors.black12,
-                          ),
-                        ],
-                      ),
                     ],
                   ),
+                ),
+                SizedBox(height: size.height * 0.04),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 2,
+                      width: size.width * 0.2,
+                      color: Colors.black12,
+                    ),
+                    Text(
+                      "  Or SignUp with   ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: textColor2,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Container(
+                      height: 2,
+                      width: size.width * 0.2,
+                      color: Colors.black12,
+                    ),
+                  ],
                 ),
                 SizedBox(height: size.height * 0.04),
                 Row(
@@ -282,7 +345,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                       child: const Padding(
-                        padding: const EdgeInsets.all(14),
+                        padding: EdgeInsets.all(14),
                         child: Image(
                           image: AssetImage("assets/images/google.png"),
                         ),

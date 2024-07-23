@@ -1,4 +1,5 @@
 import 'package:avalon/firebase_options.dart';
+import 'package:avalon/pages/authentification/auth_page.dart';
 import 'package:avalon/pages/loginpage/signup_page.dart';
 //import 'package:avalon/pages/authentification/auth_page.dart';
 //import 'package:avalon/pages/loginpage/verify_otp.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Avalon ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home: SignUpPage(),
+      home: const SignUpPage(),
     );
   }
 }

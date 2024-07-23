@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class OtpVerificationPage extends StatefulWidget {
-  final String email = 'sawantaditya@gmail.com';
+  final String email ;
 
-  const OtpVerificationPage({Key? key, email}) : super(key: key);
+  const OtpVerificationPage({Key? key, required this.email}) : super(key: key);
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
