@@ -2,7 +2,9 @@ import 'package:avalon/pages/loginpage/forgot_pass.dart';
 import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,6 +18,131 @@ class _SignInPageState extends State<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  void signUserIn() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      Fluttertoast.showToast(
+        msg: "Login successful",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      // Navigate to home page after successful login
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        // The account already exists with a different credential
+        String email = e.email!;
+        AuthCredential pendingCredential = e.credential!;
+
+        // Fetch a list of what sign-in methods exist for the conflicting user
+        List<String> userSignInMethods =
+            // ignore: deprecated_member_use
+            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+
+        // If the user has several sign-in methods,
+        // the first method in the list will be the "recommended" method to use.
+        if (userSignInMethods.first == 'password') {
+          // Prompt the user to enter their password
+          String password = '...'; // Replace with user input for password
+
+          // Sign the user in to their account with the password
+          UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+
+          // Link the pending credential with the existing account
+          await userCredential.user?.linkWithCredential(pendingCredential);
+
+          // Success! Go back to your application flow
+          Fluttertoast.showToast(
+            msg: "Login successful",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else if (userSignInMethods.first == 'facebook.com') {
+          // Handle other OAuth providers like Facebook
+          // Create a new Facebook credential
+          String accessToken = await triggerFacebookAuthentication();
+          var facebookAuthCredential =
+              FacebookAuthProvider.credential(accessToken);
+
+          // Sign the user in with the credential
+          UserCredential userCredential = await FirebaseAuth.instance
+              .signInWithCredential(facebookAuthCredential);
+
+          // Link the pending credential with the existing account
+          await userCredential.user?.linkWithCredential(pendingCredential);
+
+          // Success! Go back to your application flow
+          Fluttertoast.showToast(
+            msg: "Login successful",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+        }
+        // Handle other OAuth providers...
+      } else if (e.code == 'user-not-found') {
+        Fluttertoast.showToast(
+          msg: "Email incorrect",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else if (e.code == 'wrong-password') {
+        Fluttertoast.showToast(
+          msg: "Password incorrect",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "An error occurred. Please try again.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<String> triggerFacebookAuthentication() async {
+    // Simulate a Facebook authentication process
+    await Future.delayed(Duration(seconds: 2));
+    return 'facebook_access_token';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,12 +302,7 @@ class _SignInPageState extends State<SignInPage> {
                       GestureDetector(
                         onTap: () {
                           if (_formkey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUpPage(),
-                              ),
-                            );
+                            signUserIn();
                           }
                         },
                         child: Container(
@@ -197,15 +319,19 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                             ],
                           ),
-                          child: const Center(
-                            child: Text(
-                              "Sign In",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
+                          child: Center(
+                            child: _isLoading
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text(
+                                    "Sign In",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
@@ -258,7 +384,7 @@ class _SignInPageState extends State<SignInPage> {
                         ],
                       ),
                       child: const Padding(
-                        padding: const EdgeInsets.all(14),
+                        padding: EdgeInsets.all(14),
                         child: Image(
                           image: AssetImage("assets/images/google.png"),
                         ),
