@@ -1,3 +1,4 @@
+import 'package:avalon/pages/home_page.dart';
 import 'package:avalon/pages/loginpage/forgot_pass.dart';
 import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
@@ -14,13 +15,17 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isLoading = false;
 
   void signUserIn() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
@@ -30,6 +35,7 @@ class _SignInPageState extends State<SignInPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+
       Fluttertoast.showToast(
         msg: "Login successful",
         toastLength: Toast.LENGTH_SHORT,
@@ -38,74 +44,16 @@ class _SignInPageState extends State<SignInPage> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+
       // Navigate to home page after successful login
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') {
-        // The account already exists with a different credential
-        String email = e.email!;
-        AuthCredential pendingCredential = e.credential!;
-
-        // Fetch a list of what sign-in methods exist for the conflicting user
-        List<String> userSignInMethods =
-            // ignore: deprecated_member_use
-            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-
-        // If the user has several sign-in methods,
-        // the first method in the list will be the "recommended" method to use.
-        if (userSignInMethods.first == 'password') {
-          // Prompt the user to enter their password
-          String password = '...'; // Replace with user input for password
-
-          // Sign the user in to their account with the password
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
-
-          // Link the pending credential with the existing account
-          await userCredential.user?.linkWithCredential(pendingCredential);
-
-          // Success! Go back to your application flow
-          Fluttertoast.showToast(
-            msg: "Login successful",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-        } else if (userSignInMethods.first == 'facebook.com') {
-          // Handle other OAuth providers like Facebook
-          // Create a new Facebook credential
-          String accessToken = await triggerFacebookAuthentication();
-          var facebookAuthCredential =
-              FacebookAuthProvider.credential(accessToken);
-
-          // Sign the user in with the credential
-          UserCredential userCredential = await FirebaseAuth.instance
-              .signInWithCredential(facebookAuthCredential);
-
-          // Link the pending credential with the existing account
-          await userCredential.user?.linkWithCredential(pendingCredential);
-
-          // Success! Go back to your application flow
-          Fluttertoast.showToast(
-            msg: "Login successful",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-        }
-        // Handle other OAuth providers...
-      } else if (e.code == 'user-not-found') {
+      if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
-          msg: "Email incorrect",
+          msg: "Email not registered. Please register your email address.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
@@ -138,15 +86,17 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  Future<String> triggerFacebookAuthentication() async {
-    // Simulate a Facebook authentication process
-    await Future.delayed(Duration(seconds: 2));
-    return 'facebook_access_token';
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         width: size.width,
@@ -178,7 +128,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 // Subtitle
                 Text(
-                  'Continue your journey towards a\n sustainable future',
+                  'Continue your journey towards a\nsustainable future',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
@@ -187,7 +137,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SizedBox(height: size.height * 0.06),
                 Form(
-                  key: _formkey,
+                  key: _formKey,
                   child: Column(
                     children: [
                       // Enter Email Input Field
@@ -221,8 +171,8 @@ class _SignInPageState extends State<SignInPage> {
                           return null;
                         },
                         onChanged: (value) {
-                          if (_formkey.currentState != null) {
-                            _formkey.currentState!.validate();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
                           }
                         },
                       ),
@@ -270,8 +220,8 @@ class _SignInPageState extends State<SignInPage> {
                           return null;
                         },
                         onChanged: (value) {
-                          if (_formkey.currentState != null) {
-                            _formkey.currentState!.validate();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
                           }
                         },
                       ),
@@ -301,7 +251,7 @@ class _SignInPageState extends State<SignInPage> {
                       // Sign In Button
                       GestureDetector(
                         onTap: () {
-                          if (_formkey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             signUserIn();
                           }
                         },
@@ -366,77 +316,17 @@ class _SignInPageState extends State<SignInPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(14),
-                        child: Image(
-                          image: AssetImage("assets/images/google.png"),
-                        ),
-                      ),
+                    SocialMediaButton(
+                      imagePath: "assets/images/google.png",
+                      backgroundColor: backgroundColor4,
                     ),
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(13),
-                        child: Image(
-                          image: AssetImage("assets/images/apple.png"),
-                        ),
-                      ),
+                    SocialMediaButton(
+                      imagePath: "assets/images/apple.png",
+                      backgroundColor: backgroundColor4,
                     ),
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(13),
-                        child: Image(
-                          image: AssetImage("assets/images/facebook.png"),
-                        ),
-                      ),
+                    SocialMediaButton(
+                      imagePath: "assets/images/facebook.png",
+                      backgroundColor: backgroundColor4,
                     ),
                   ],
                 ),
@@ -445,28 +335,26 @@ class _SignInPageState extends State<SignInPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Not a member?",
+                      "New User?",
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(width: size.width * 0.01),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUpPage(),
-                          ),
+                              builder: (context) => SignUpPage()),
                         );
                       },
-                      child: const Text(
-                        " Register Now",
+                      child: Text(
+                        " Sign Up",
                         style: TextStyle(
-                          fontSize: 15,
+                          color: textColor2,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -475,6 +363,43 @@ class _SignInPageState extends State<SignInPage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SocialMediaButton extends StatelessWidget {
+  final String imagePath;
+  final Color backgroundColor;
+
+  const SocialMediaButton({
+    Key? key,
+    required this.imagePath,
+    required this.backgroundColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 2,
+            spreadRadius: 1,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+      child: Center(
+        child: Image.asset(
+          imagePath,
+          height: 35,
+          width: 35,
         ),
       ),
     );

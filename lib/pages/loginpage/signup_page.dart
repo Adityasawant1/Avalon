@@ -1,6 +1,6 @@
 import 'package:avalon/Service/auth_service.dart';
+import 'package:avalon/pages/home_page.dart';
 import 'package:avalon/pages/loginpage/signin_page.dart';
-import 'package:avalon/pages/loginpage/verify_otp.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -250,8 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => OtpVerificationPage(
-                                      email: _emailController.text.toString(),),
+                                    builder: (context) => HomePage(),
                                   ),
                                 );
                               });
