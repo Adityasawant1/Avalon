@@ -315,39 +315,22 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 SizedBox(height: size.height * 0.04),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SocialMediaButton(
-                      onpress: () async {
-                        UserCredential user =
-                            await GoogleAuthService().signInWithGoogle();
-                        // ignore: unnecessary_null_comparison
-                        if (user != null) {
-                          // Successful sign-in
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        } else {
-                          // Sign-in failed
-                          print("Sign-in failed");
-                        }
-                      },
-                      imagePath: "assets/images/google.png",
-                      backgroundColor: backgroundColor4,
-                    ),
-                    SocialMediaButton(
-                      onpress: () {},
-                      imagePath: "assets/images/apple.png",
-                      backgroundColor: backgroundColor4,
-                    ),
-                    SocialMediaButton(
-                      onpress: () {},
-                      imagePath: "assets/images/facebook.png",
-                      backgroundColor: backgroundColor4,
-                    ),
-                  ],
+                SocialMediaButton(
+                  onpress: () async {
+                    UserCredential user =
+                        await GoogleAuthService().signInWithGoogle();
+                    // ignore: unnecessary_null_comparison
+                    if (user != null) {
+                      // Successful sign-in
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    } else {
+                      // Sign-in failed
+                      print("Sign-in failed");
+                    }
+                  },
+                  imagePath: "assets/images/google.png",
+                  backgroundColor: backgroundColor4,
                 ),
                 SizedBox(height: size.height * 0.04),
                 Row(

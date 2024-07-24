@@ -19,10 +19,10 @@ class SocialMediaButton extends StatelessWidget {
       onTap: onpress,
       child: Container(
         height: size.height * 0.08,
-        width: size.width * 0.2,
+        width: size.width * 0.7,
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(50),
           boxShadow: const [
             BoxShadow(
               blurRadius: 2,
