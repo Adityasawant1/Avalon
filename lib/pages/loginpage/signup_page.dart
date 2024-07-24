@@ -1,10 +1,12 @@
 import 'package:avalon/Service/auth_service.dart';
+import 'package:avalon/Service/google_auth_service.dart';
 import 'package:avalon/pages/home_page.dart';
 import 'package:avalon/pages/loginpage/signin_page.dart';
 import 'package:avalon/theme/colors.dart';
+import 'package:avalon/utils/social_button.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -232,7 +234,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               _successMessage = '';
                             });
                             AuthService authService = AuthService();
-                            var result = await authService.registerWithEmailAndPassword(
+                            var result =
+                                await authService.registerWithEmailAndPassword(
                               _emailController.text,
                               _passwordController.text,
                             );
@@ -254,13 +257,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 );
                               });
-                            } else if (result == 'Email is already registered. Please sign in.') {
+                            } else if (result ==
+                                'Email is already registered. Please sign in.') {
                               setState(() {
                                 _errorMessage = result!;
                               });
                             } else {
                               setState(() {
-                                _errorMessage = 'Sign up failed. Please try again.';
+                                _errorMessage =
+                                    'Sign up failed. Please try again.';
                               });
                             }
                           }
@@ -282,7 +287,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: Center(
                             child: _isLoading
                                 ? CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
                                   )
                                 : Text(
                                     "Sign Up",
@@ -326,29 +332,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(14),
-                        child: Image(
-                          image: AssetImage("assets/images/google.png"),
-                        ),
-                      ),
+                    SocialMediaButton(
+                      onpress: () async {
+                        UserCredential user =
+                            await GoogleAuthService().signInWithGoogle();
+                        // ignore: unnecessary_null_comparison
+                        if (user != null) {
+                          // Successful sign-in
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } else {
+                          // Sign-in failed
+                          print("Sign-in failed");
+                        }
+                      },
+                      imagePath: "assets/images/google.png",
+                      backgroundColor: backgroundColor4,
                     ),
                     Container(
                       height: size.height * 0.08,
