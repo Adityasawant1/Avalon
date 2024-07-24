@@ -7,16 +7,25 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     void SignOut() {
-        FirebaseAuth.instance.signOut();
+      FirebaseAuth.instance.signOut();
     }
+
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(child: Text("Which color of ur buggati")),
-            Center(child: IconButton(onPressed: SignOut, icon: Icon(Icons.logout_outlined)))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("if u don't have bugatti then try this "),
+                Center(
+                    child: IconButton(
+                        onPressed: SignOut, icon: Icon(Icons.logout_outlined))),
+              ],
+            )
           ],
         ),
       ),

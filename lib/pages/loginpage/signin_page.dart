@@ -1,7 +1,9 @@
+import 'package:avalon/Service/google_auth_service.dart';
 import 'package:avalon/pages/home_page.dart';
 import 'package:avalon/pages/loginpage/forgot_pass.dart';
 import 'package:avalon/pages/loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
+import 'package:avalon/utils/social_button.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -317,14 +319,31 @@ class _SignInPageState extends State<SignInPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SocialMediaButton(
+                      onpress: () async {
+                        UserCredential user =
+                            await GoogleAuthService().signInWithGoogle();
+                        // ignore: unnecessary_null_comparison
+                        if (user != null) {
+                          // Successful sign-in
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } else {
+                          // Sign-in failed
+                          print("Sign-in failed");
+                        }
+                      },
                       imagePath: "assets/images/google.png",
                       backgroundColor: backgroundColor4,
                     ),
                     SocialMediaButton(
+                      onpress: () {},
                       imagePath: "assets/images/apple.png",
                       backgroundColor: backgroundColor4,
                     ),
                     SocialMediaButton(
+                      onpress: () {},
                       imagePath: "assets/images/facebook.png",
                       backgroundColor: backgroundColor4,
                     ),
@@ -345,8 +364,7 @@ class _SignInPageState extends State<SignInPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpPage()),
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
                         );
                       },
                       child: Text(
@@ -363,43 +381,6 @@ class _SignInPageState extends State<SignInPage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SocialMediaButton extends StatelessWidget {
-  final String imagePath;
-  final Color backgroundColor;
-
-  const SocialMediaButton({
-    Key? key,
-    required this.imagePath,
-    required this.backgroundColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      width: 60,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 1,
-            color: Colors.grey,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Image.asset(
-          imagePath,
-          height: 35,
-          width: 35,
         ),
       ),
     );
