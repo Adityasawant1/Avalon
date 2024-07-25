@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -68,15 +69,126 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: size.height * 0.0),
               GridView.count(
                 crossAxisCount: 1,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  CategoryCard(icon: Icons.nature, label: 'Nature '),
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/earth.png', // replace with appropriate image
+                                height: size.height * 0.25,
+                                width: size.width * 0.45,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nature',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Description of Nature goes here. It can be a short summary or detailed information.',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.04),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Stat 1',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(height: size.height * 0.001),
+                                      Icon(Icons.show_chart,
+                                          color: Colors.white),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: size.width * 0.03),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Stat 2',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(height: size.height * 0.001),
+                                      Icon(Icons.pie_chart,
+                                          color: Colors.white),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: size.width * 0.03),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Stat 3',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(height: size.height * 0.001),
+                                      Icon(Icons.bar_chart,
+                                          color: Colors.white),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
+              SizedBox(height: size.height * 0.02),
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -105,7 +217,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         animationDuration: Duration(milliseconds: 300),
         color: Colors.deepPurple,
         onTap: (index) {},
@@ -129,46 +241,17 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Card(
+      elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 40, color: Colors.purple),
-          SizedBox(height: 10),
+          SizedBox(height: size.height * 0.02),
           Text(label),
         ],
-      ),
-    );
-  }
-}
-
-class CourseCard extends StatelessWidget {
-  final String label;
-  final int videoCount;
-
-  CourseCard({required this.label, required this.videoCount});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTPKd63xpKwnAKFl1qiDhzLIt_hXmx4KQcgg&s', // replace with appropriate image
-              height: 80,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 10),
-            Text(label,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('$videoCount Videos', style: TextStyle(color: Colors.grey)),
-          ],
-        ),
       ),
     );
   }
