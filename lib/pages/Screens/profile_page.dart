@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -20,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
+           const SliverAppBar(
               backgroundColor: Color(0xFF1C1C1E),
               floating: true,
               pinned: false,
@@ -56,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UserInfoSection(),
+                    const SizedBox(height: 10,),
+                    Center(child: UserInfoSection()),
                     SizedBox(height: 20),
                     AccountSettingsSection(),
                     SizedBox(height: 20),
@@ -112,6 +112,7 @@ class UserInfoSection extends StatelessWidget {
 }
 
 class AccountSettingsSection extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

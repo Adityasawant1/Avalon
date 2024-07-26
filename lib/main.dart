@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Avalon ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home:const AuthPage(),
+      home: const AuthPage(),
     );
   }
 }
