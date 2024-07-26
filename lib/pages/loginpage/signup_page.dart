@@ -351,54 +351,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       imagePath: "assets/images/google.png",
                       backgroundColor: backgroundColor4,
                     ),
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(13),
-                        child: Image(
-                          image: AssetImage("assets/images/apple.png"),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0.5,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(13),
-                        child: Image(
-                          image: AssetImage("assets/images/facebook.png"),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: size.height * 0.04),
