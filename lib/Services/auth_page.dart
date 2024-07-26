@@ -1,5 +1,5 @@
-import 'package:avalon/pages/home_page.dart';
-import 'package:avalon/pages/loginpage/intro_page.dart';
+import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Loginpage/intro_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

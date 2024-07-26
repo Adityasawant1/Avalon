@@ -1,5 +1,5 @@
-import 'package:avalon/pages/loginpage/signin_page.dart';
-import 'package:avalon/pages/loginpage/signup_page.dart';
+import 'package:avalon/pages/Loginpage/signin_page.dart';
+import 'package:avalon/pages/Loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:flutter/material.dart';
 

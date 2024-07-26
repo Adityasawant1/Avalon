@@ -1,6 +1,6 @@
 import 'package:avalon/firebase_options.dart';
 
-import 'package:avalon/pages/main_home_page.dart';
+import 'package:avalon/pages/Home/main_home_page.dart';
 //import 'package:avalon/pages/authentification/auth_page.dart';
 //import 'package:avalon/pages/temp.dart';
 
