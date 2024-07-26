@@ -42,8 +42,8 @@ class _MainScreenState extends State<MainScreen> {
         },
         children: [
           HomePage(),
-          HomePage(), // Replace with your Explore page
-          HomePage(), // Replace with your Add page
+          HomePage(), 
+          HomePage(),
           ProfilePage(),
           SettingsPage(),
         ],

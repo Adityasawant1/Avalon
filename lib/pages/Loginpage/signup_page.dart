@@ -1,6 +1,7 @@
 import 'package:avalon/Services/auth_service.dart';
 import 'package:avalon/Services/google_auth_service.dart';
 import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Home/main_home_page.dart';
 import 'package:avalon/pages/Loginpage/signin_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:avalon/utils/social_button.dart';
@@ -253,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => HomePage(),
+                                    builder: (context) => MainScreen(),
                                   ),
                                 );
                               });
