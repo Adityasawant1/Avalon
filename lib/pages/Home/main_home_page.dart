@@ -1,4 +1,5 @@
 import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Screens/leaderboard.dart';
 import 'package:avalon/pages/Screens/profile_page.dart';
 import 'package:avalon/pages/Screens/setting_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         },
         children: [
           HomePage(),
-          HomePage(), 
+          LeaderBoardPage(), 
           HomePage(),
           ProfilePage(),
           SettingsPage(),

@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
+            const SliverAppBar(
               backgroundColor: Color(0xFF1C1C1E),
               floating: true,
               pinned: false,
@@ -124,7 +124,7 @@ class WeatherWidget extends StatelessWidget {
                   children: [
                     _buildStatBox("Humidity", "82%", constraints.maxWidth),
                     SizedBox(width: 10),
-                    _buildStatBox("Wind", "15 km/h", constraints.maxWidth),
+                    _buildStatBox("Wind", "15 ", constraints.maxWidth),
                     SizedBox(width: 10),
                     _buildStatBox("UV Index", "5", constraints.maxWidth),
                   ],
