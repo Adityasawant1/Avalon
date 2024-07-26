@@ -1,7 +1,7 @@
-import 'package:avalon/Service/google_auth_service.dart';
-import 'package:avalon/pages/home_page.dart';
-import 'package:avalon/pages/loginpage/forgot_pass.dart';
-import 'package:avalon/pages/loginpage/signup_page.dart';
+import 'package:avalon/Services/google_auth_service.dart';
+import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Loginpage/forgot_pass.dart';
+import 'package:avalon/pages/Loginpage/signup_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:avalon/utils/social_button.dart';
 import 'package:email_validator/email_validator.dart';

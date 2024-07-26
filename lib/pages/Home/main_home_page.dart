@@ -1,6 +1,6 @@
-import 'package:avalon/pages/home_page.dart';
-import 'package:avalon/pages/profile_page.dart';
-import 'package:avalon/pages/setting_page.dart';
+import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Screens/profile_page.dart';
+import 'package:avalon/pages/Screens/setting_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
