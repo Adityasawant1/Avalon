@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,10 +6,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _onItemTapped(int index) {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,21 +60,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        animationDuration: Duration(milliseconds: 300),
-        color: Colors.grey.shade800,
-        onTap: (index) {
-          _onItemTapped(index);
-        },
-        items: [
-          Icon(Icons.home, color: Colors.white),
-          Icon(Icons.search, color: Colors.white),
-          Icon(Icons.add, color: Colors.white),
-          Icon(Icons.person, color: Colors.white),
-          Icon(Icons.settings, color: Colors.white)
-        ],
       ),
     );
   }
