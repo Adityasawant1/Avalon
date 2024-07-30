@@ -208,22 +208,35 @@ class ProjectCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: Icon(
-                          project.isLiked
-                              ? Icons.arrow_upward
-                              : Icons.arrow_upward_outlined,
-                          color: project.isLiked ? Colors.green : Colors.grey,
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: AppColors1.exploreTabSelectedColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: IconButton(
+                          icon: Icon(
+                            project.isLiked
+                                ? Icons.arrow_upward
+                                : Icons.arrow_upward_outlined,
+                            color: project.isLiked ? Colors.green : Colors.grey,
+                          ),
+                          onPressed: onLikeButtonPressed,
                         ),
-                        onPressed: onLikeButtonPressed,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors1.textBlack),
+                            backgroundColor: AppColors1.backgroundColor),
                         onPressed: () {
                           // Add your "I'm in" button functionality here
                         },
-                        child: Text("I'm in"),
+                        child: Text(
+                          "I'm in",
+                          style: TextStyle(
+                              color: AppColors1.textWhite,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ],
                   ),
