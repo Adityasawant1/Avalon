@@ -57,12 +57,31 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            ExploreTab(text: 'Home', isSelected: true),
-                            ExploreTab(text: 'Community', isSelected: false),
-                            ExploreTab(text: 'Task', isSelected: false),
-                            ExploreTab(text: 'News', isSelected: false),
-                            ExploreTab(text: 'Updates', isSelected: false),
-                            ExploreTab(text: 'Events', isSelected: false),
+                            ExploreTab(
+                              text: 'Home',
+                              isSelected: true,
+                              nextPage: HomePage(),
+                            ),
+                            ExploreTab(
+                                text: 'Community',
+                                isSelected: false,
+                                nextPage: HomePage()),
+                            ExploreTab(
+                                text: 'Task',
+                                isSelected: false,
+                                nextPage: HomePage()),
+                            ExploreTab(
+                                text: 'News',
+                                isSelected: false,
+                                nextPage: HomePage()),
+                            ExploreTab(
+                                text: 'Updates',
+                                isSelected: false,
+                                nextPage: HomePage()),
+                            ExploreTab(
+                                text: 'Events',
+                                isSelected: false,
+                                nextPage: HomePage()),
                             // Add more tabs as needed
                           ],
                         ),
@@ -370,26 +389,37 @@ class DeviceTile extends StatelessWidget {
 class ExploreTab extends StatelessWidget {
   final String text;
   final bool isSelected;
+  final Widget
+      nextPage; // Add this property to specify the next page to navigate to
 
-  ExploreTab({required this.text, required this.isSelected});
+  ExploreTab(
+      {required this.text, required this.isSelected, required this.nextPage});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors1.exploreTabSelectedColor
-              : AppColors1.exploreTabUnselectedColor,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isSelected ? AppColors1.textBlack : AppColors1.textWhite,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => nextPage),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors1.exploreTabSelectedColor
+                : AppColors1.exploreTabUnselectedColor,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: isSelected ? AppColors1.textBlack : AppColors1.textWhite,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
         ),
       ),

@@ -54,98 +54,108 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors1.backgroundColor,
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'COMMUNITY',
-            style: TextStyle(
-              color: AppColors1.textWhite,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        backgroundColor: AppColors1.backgroundColor,
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              'COMMUNITY',
+              style: TextStyle(
+                color: AppColors1.textWhite,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        backgroundColor: AppColors1.backgroundColor,
-        actions: [
-          Padding(
+          backgroundColor: AppColors1.backgroundColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundColor: AppColors1.avatarBackgroundColor,
+                child: Icon(Icons.person, color: AppColors1.textWhite),
+              ),
+            )
+          ],
+          leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
               backgroundColor: AppColors1.avatarBackgroundColor,
-              child: Icon(Icons.person, color: AppColors1.textWhite),
+              child: Icon(Icons.grid_view_rounded, color: AppColors1.textWhite),
             ),
-          )
-        ],
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: AppColors1.avatarBackgroundColor,
-            child: Icon(Icons.grid_view_rounded, color: AppColors1.textWhite),
           ),
         ),
-      ),
-      body: ListView.builder(
-        itemCount: projects.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    backgroundColor: AppColors1.weatherContainerColor,
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image.asset(
-                            projects[index].imagePath,
-                            fit: BoxFit.cover,
+        body: ListView.builder(
+          itemCount: projects.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: AppColors1.weatherContainerColor,
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset(
+                              projects[index].imagePath,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          projects[index].name,
-                          style: TextStyle(
+                          SizedBox(height: 10),
+                          Text(
+                            projects[index].name,
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColors1.textWhite),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          projects[index].description,
-                          style: TextStyle(color: AppColors1.textWhite),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'More Project Details',
-                          style: TextStyle(color: AppColors1.textWhite),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          projects[index].ngoName,
-                          style: TextStyle(
-                              color: AppColors1.exploreTabSelectedColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            child: ProjectCard(
-              project: projects[index],
-              onLikeButtonPressed: () {
-                setState(() {
-                  projects[index].isLiked = !projects[index].isLiked;
-                });
+                              color: AppColors1.textWhite,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              projects[index].description,
+                              style: TextStyle(color: AppColors1.textWhite),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'More Project Details',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              projects[index].ngoName,
+                              style: TextStyle(
+                                color: AppColors1.avatarBackgroundColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
               },
-            ),
-          );
-        },
-      ),
-    );
+              child: ProjectCard(
+                project: projects[index],
+                onLikeButtonPressed: () {
+                  setState(() {
+                    projects[index].isLiked = !projects[index].isLiked;
+                  });
+                },
+              ),
+            );
+          },
+        ));
   }
 }
 
@@ -208,22 +218,35 @@ class ProjectCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: Icon(
-                          project.isLiked
-                              ? Icons.arrow_upward
-                              : Icons.arrow_upward_outlined,
-                          color: project.isLiked ? Colors.green : Colors.grey,
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: AppColors1.exploreTabSelectedColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: IconButton(
+                          icon: Icon(
+                            project.isLiked
+                                ? Icons.arrow_upward
+                                : Icons.arrow_upward_outlined,
+                            color: project.isLiked ? Colors.green : Colors.grey,
+                          ),
+                          onPressed: onLikeButtonPressed,
                         ),
-                        onPressed: onLikeButtonPressed,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors1.textBlack),
+                            backgroundColor: AppColors1.backgroundColor),
                         onPressed: () {
                           // Add your "I'm in" button functionality here
                         },
-                        child: Text("I'm in"),
+                        child: Text(
+                          "I'm in",
+                          style: TextStyle(
+                              color: AppColors1.textWhite,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ],
                   ),
