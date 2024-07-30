@@ -1,4 +1,7 @@
+import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+// Import the colors
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,38 +11,37 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xFF1C1C1E),
+      backgroundColor: AppColors1.backgroundColor,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
-              backgroundColor: Color(0xFF1C1C1E),
+            SliverAppBar(
+              backgroundColor: AppColors1.backgroundColor,
               floating: true,
               pinned: false,
               snap: true,
               elevation: 0,
               title: Center(
-                child: Text(
-                  "Avalon",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
-                ),
+                child: Image.asset("assets/images/avalon.png",
+                    width: size.width * 0.4, height: size.height * 0.5),
               ),
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    child: Icon(Icons.person),
+                    backgroundColor: AppColors1.avatarBackgroundColor,
+                    child: Icon(Icons.person, color: AppColors1.textWhite),
                   ),
                 )
               ],
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
-                  child: Icon(Icons.grid_view_rounded),
+                  backgroundColor: AppColors1.avatarBackgroundColor,
+                  child: Icon(Icons.grid_view_rounded,
+                      color: AppColors1.textWhite),
                 ),
               ),
             ),
@@ -49,6 +51,24 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      color: AppColors1.backgroundColor,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ExploreTab(text: 'Home', isSelected: true),
+                            ExploreTab(text: 'Community', isSelected: false),
+                            ExploreTab(text: 'Task', isSelected: false),
+                            ExploreTab(text: 'News', isSelected: false),
+                            ExploreTab(text: 'Updates', isSelected: false),
+                            ExploreTab(text: 'Events', isSelected: false),
+                            // Add more tabs as needed
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
                     WeatherWidget(),
                     SizedBox(height: 20),
                     EnergyWidget(),
@@ -78,40 +98,63 @@ class WeatherWidget extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: AppColors1.weatherContainerColor,
             borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                offset: Offset(4, 4),
+                blurRadius: 10,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                offset: Offset(-4, -4),
+                blurRadius: 10,
+                spreadRadius: 1,
+              ),
+            ],
           ),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset('assets/images/earth.png',
-                      height: constraints.maxWidth * 0.4,
-                      width: constraints.maxWidth * 0.4),
+                  Lottie.asset(
+                    "assets/images/anime1.json",
+                    height: constraints.maxWidth * 0.4,
+                    width: constraints.maxWidth * 0.4,
+                  ),
+                  SizedBox(
+                    width: 25,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Heavy Rain",
                         style: TextStyle(
-                            color: Colors.white, fontSize: fontSizeTitle),
+                            color: AppColors1.textWhite,
+                            fontSize: fontSizeTitle),
                       ),
                       Text(
                         "Tonight",
                         style: TextStyle(
-                            color: Colors.white, fontSize: fontSizeSubtitle),
+                            color: AppColors1.textWhite,
+                            fontSize: fontSizeSubtitle),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "27°",
                         style: TextStyle(
-                            color: Colors.white, fontSize: fontSizeTemperature),
+                            color: AppColors1.textWhite,
+                            fontSize: fontSizeTemperature),
                       ),
                       Text(
                         "Feels like 32°",
                         style: TextStyle(
-                            color: Colors.white, fontSize: fontSizeFeelsLike),
+                            color: AppColors1.textWhite,
+                            fontSize: fontSizeFeelsLike),
                       ),
                     ],
                   ),
@@ -124,7 +167,7 @@ class WeatherWidget extends StatelessWidget {
                   children: [
                     _buildStatBox("Humidity", "82%", constraints.maxWidth),
                     SizedBox(width: 10),
-                    _buildStatBox("Wind", "15 ", constraints.maxWidth),
+                    _buildStatBox("Wind", "15 km/h", constraints.maxWidth),
                     SizedBox(width: 10),
                     _buildStatBox("UV Index", "5", constraints.maxWidth),
                   ],
@@ -145,19 +188,35 @@ class WeatherWidget extends StatelessWidget {
       width: maxWidth * 0.25,
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Color(0xFF3A3A3C),
+        color: AppColors1.avatarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            offset: Offset(4, 4),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            offset: Offset(-4, -4),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
       ),
       child: Column(
         children: [
           Text(
             label,
-            style: TextStyle(color: Colors.white, fontSize: fontSizeLabel),
+            style:
+                TextStyle(color: AppColors1.textWhite, fontSize: fontSizeLabel),
           ),
           SizedBox(height: 5),
           Text(
             value,
-            style: TextStyle(color: Colors.white, fontSize: fontSizeValue),
+            style:
+                TextStyle(color: AppColors1.textWhite, fontSize: fontSizeValue),
           ),
         ],
       ),
@@ -177,26 +236,42 @@ class EnergyWidget extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: AppColors1.weatherContainerColor,
             borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                offset: Offset(4, 4),
+                blurRadius: 10,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                offset: Offset(-4, -4),
+                blurRadius: 10,
+                spreadRadius: 1,
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Energy",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeTitle),
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeTitle),
               ),
               SizedBox(height: 10),
               Text(
                 "16.4 kWh",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeValue),
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeValue),
               ),
               SizedBox(height: 10),
               Text(
-                "3 Devices Turn On",
-                style:
-                    TextStyle(color: Colors.white, fontSize: fontSizeSubtitle),
+                "3 Devices Turned On",
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeSubtitle),
               ),
             ],
           ),
@@ -255,22 +330,68 @@ class DeviceTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Color(0xFF2C2C2E),
+        color: AppColors1.deviceContainerColor,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            offset: Offset(4, 4),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            offset: Offset(-4, -4),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             deviceName,
-            style: TextStyle(color: Colors.white, fontSize: fontSizeTitle),
+            style:
+                TextStyle(color: AppColors1.textWhite, fontSize: fontSizeTitle),
           ),
-          Spacer(),
+          SizedBox(height: 10),
           Text(
             "$deviceCount Devices",
-            style: TextStyle(color: Colors.white, fontSize: fontSizeSubtitle),
+            style: TextStyle(
+                color: AppColors1.textWhite, fontSize: fontSizeSubtitle),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ExploreTab extends StatelessWidget {
+  final String text;
+  final bool isSelected;
+
+  ExploreTab({required this.text, required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors1.exploreTabSelectedColor
+              : AppColors1.exploreTabUnselectedColor,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: isSelected ? AppColors1.textBlack : AppColors1.textWhite,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
       ),
     );
   }
