@@ -2,6 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+class AppColors1 {
+  static const Color backgroundColor = Color(0xFF274D46);
+  static const Color avatarBackgroundColor = Color(0xFF789F8A);
+  static const Color weatherContainerColor = Color(0xFF51776F);
+  static const Color exploreTabSelectedColor = Colors.white;
+  static const Color exploreTabUnselectedColor = Color(0xFF789F8A);
+  static const Color textWhite = Colors.white;
+  static const Color textBlack = Colors.black;
+  static const Color deviceContainerColor = Color(0xFF789F8A);
+}
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -15,12 +26,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1C1C1E),
+      backgroundColor: AppColors1.backgroundColor,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-           const SliverAppBar(
-              backgroundColor: Color(0xFF1C1C1E),
+            const SliverAppBar(
+              backgroundColor: AppColors1.backgroundColor,
               floating: true,
               pinned: false,
               snap: true,
@@ -29,23 +40,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text(
                   "Profile",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors1.textWhite,
                       fontSize: 30,
                       fontWeight: FontWeight.w600),
                 ),
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    child: Icon(Icons.edit),
+                    backgroundColor: AppColors1.avatarBackgroundColor,
+                    child: Icon(Icons.edit, color: AppColors1.textWhite),
                   ),
                 )
               ],
               leading: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: CircleAvatar(
-                  child: Icon(Icons.arrow_back),
+                  backgroundColor: AppColors1.avatarBackgroundColor,
+                  child: Icon(Icons.arrow_back, color: AppColors1.textWhite),
                 ),
               ),
             ),
@@ -55,7 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Center(child: UserInfoSection()),
                     SizedBox(height: 20),
                     AccountSettingsSection(),
@@ -84,24 +99,26 @@ class UserInfoSection extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: AppColors1.weatherContainerColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             children: [
               CircleAvatar(
                 radius: avatarRadius,
-                backgroundImage: AssetImage('assets/images/earth.png'),
+                backgroundImage: AssetImage('assets/images/profile.png'),
               ),
               SizedBox(height: 10),
               Text(
-                "John Doe",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeName),
+                "Aditya",
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeName),
               ),
               SizedBox(height: 5),
               Text(
                 "johndoe@example.com",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeEmail),
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeEmail),
               ),
             ],
           ),
@@ -112,7 +129,6 @@ class UserInfoSection extends StatelessWidget {
 }
 
 class AccountSettingsSection extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -123,7 +139,7 @@ class AccountSettingsSection extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: AppColors1.weatherContainerColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -131,36 +147,43 @@ class AccountSettingsSection extends StatelessWidget {
             children: [
               Text(
                 "Account Settings",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeTitle),
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeTitle),
               ),
               SizedBox(height: 10),
               ListTile(
-                leading: Icon(Icons.lock, color: Colors.white),
+                leading: Icon(Icons.lock, color: AppColors1.textWhite),
                 title: Text(
                   "Change Password",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {},
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.email, color: Colors.white),
+                leading: Icon(Icons.email, color: AppColors1.textWhite),
                 title: Text(
                   "Update Email",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {},
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.phone, color: Colors.white),
+                leading: Icon(Icons.phone, color: AppColors1.textWhite),
                 title: Text(
                   "Update Phone Number",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {},
               ),
             ],
@@ -184,7 +207,7 @@ class OtherDetailsSection extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: AppColors1.weatherContainerColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -192,36 +215,43 @@ class OtherDetailsSection extends StatelessWidget {
             children: [
               Text(
                 "Other Details",
-                style: TextStyle(color: Colors.white, fontSize: fontSizeTitle),
+                style: TextStyle(
+                    color: AppColors1.textWhite, fontSize: fontSizeTitle),
               ),
               SizedBox(height: 10),
               ListTile(
-                leading: Icon(Icons.info, color: Colors.white),
+                leading: Icon(Icons.info, color: AppColors1.textWhite),
                 title: Text(
                   "About",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {},
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.help, color: Colors.white),
+                leading: Icon(Icons.help, color: AppColors1.textWhite),
                 title: Text(
                   "Help & Support",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {},
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.exit_to_app, color: Colors.white),
+                leading: Icon(Icons.exit_to_app, color: AppColors1.textWhite),
                 title: Text(
                   "Logout",
-                  style: TextStyle(color: Colors.white, fontSize: fontSizeItem),
+                  style: TextStyle(
+                      color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                trailing:
+                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
                 onTap: () {
                   signOut();
                 },
