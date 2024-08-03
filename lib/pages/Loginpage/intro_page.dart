@@ -45,7 +45,16 @@ class _LoginPageState extends State<IntroPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        color: backgroundColor1,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              backgroundColor2,
+              backgroundColor2,
+              backgroundColor4,
+            ],
+          ),
+        ),
         width: size.width,
         height: size.height,
         child: Column(
@@ -107,6 +116,7 @@ class _LoginPageState extends State<IntroPage> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
+                        width: 1.5,
                         color: Colors.white,
                       ),
                       boxShadow: [

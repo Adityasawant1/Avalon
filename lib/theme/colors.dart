@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-Color backgroundColor1 = const Color(0xffE9EAF7);
-Color backgroundColor2 = const Color(0xffF4EEF2);
+Color backgroundColor1 = Color.fromRGBO(233, 234, 247, 1);
+Color backgroundColor2 = Color.fromARGB(255, 238, 244, 244);
 Color backgroundColor3 = const Color(0xffEBEBF2);
-Color backgroundColor4 = const Color(0xffE3EDF5);
-Color primaryColor = const Color(0xffD897FD);
+Color backgroundColor4 = Color.fromARGB(255, 227, 245, 236);
+Color primaryColor = Color.fromARGB(191, 89, 122, 86);
 Color textColor1 = const Color(0xff353047);
 Color textColor2 = const Color(0xff6F6B7A);
-Color buttonColor = const Color(0xffFD6B68);
+Color buttonColor = const Color(0xFF4c7273);
 
 class AppColors {
   static const Color color1 = Color(0xFF041421);

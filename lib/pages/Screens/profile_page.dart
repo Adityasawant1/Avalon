@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AppColors1 {
   static const Color backgroundColor = Color(0xFF274D46);
@@ -19,8 +22,57 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  void _onItemTapped(int index) {
-    setState(() {});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  User? _user;
+  String _username = '';
+  String _email = '';
+  File? _imageFile;
+  bool _isEditing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _auth.currentUser;
+    if (_user != null) {
+      _email = _user!.email!;
+      _fetchUserInfo();
+    }
+  }
+
+  Future<void> _fetchUserInfo() async {
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(_user!.uid).get();
+    if (userDoc.exists) {
+      setState(() {
+        _username = userDoc['username'] ?? '';
+        // _imageFile = userDoc['profile_picture'] != null
+        //     ? File(userDoc['profile_picture'])
+        //     : null;
+      });
+    }
+  }
+
+  Future<void> _updateUserInfo() async {
+    await _firestore.collection('users').doc(_user!.uid).set({
+      'username': _username,
+      'profile_picture': _imageFile?.path,
+    }, SetOptions(merge: true));
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _signOut() async {
+    await _auth.signOut();
+    await GoogleSignIn().signOut();
   }
 
   @override
@@ -30,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
+            SliverAppBar(
               backgroundColor: AppColors1.backgroundColor,
               floating: true,
               pinned: false,
@@ -50,15 +102,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundColor: AppColors1.avatarBackgroundColor,
-                    child: Icon(Icons.edit, color: AppColors1.textWhite),
+                    child: IconButton(
+                      icon: Icon(Icons.edit, color: AppColors1.textWhite),
+                      onPressed: () {
+                        setState(() {
+                          _isEditing = !_isEditing;
+                        });
+                      },
+                    ),
                   ),
-                )
+                ),
               ],
               leading: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: AppColors1.avatarBackgroundColor,
-                  child: Icon(Icons.arrow_back, color: AppColors1.textWhite),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: AppColors1.textWhite),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -71,11 +135,24 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Center(child: UserInfoSection()),
+                    Center(
+                      child: UserInfoSection(
+                        username: _username,
+                        email: _email,
+                        imageFile: _imageFile,
+                        isEditing: _isEditing,
+                        onUsernameChanged: (value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
+                        onImagePicked: _pickImage,
+                      ),
+                    ),
                     SizedBox(height: 20),
                     AccountSettingsSection(),
                     SizedBox(height: 20),
-                    OtherDetailsSection(),
+                    OtherDetailsSection(onSignOut: _signOut),
                   ],
                 ),
               ),
@@ -88,6 +165,22 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class UserInfoSection extends StatelessWidget {
+  final String username;
+  final String email;
+  final File? imageFile;
+  final bool isEditing;
+  final Function(String) onUsernameChanged;
+  final Function onImagePicked;
+
+  UserInfoSection({
+    required this.username,
+    required this.email,
+    required this.imageFile,
+    required this.isEditing,
+    required this.onUsernameChanged,
+    required this.onImagePicked,
+  });
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -104,19 +197,36 @@ class UserInfoSection extends StatelessWidget {
           ),
           child: Column(
             children: [
-              CircleAvatar(
-                radius: avatarRadius,
-                backgroundImage: AssetImage('assets/images/profile.png'),
+              GestureDetector(
+                onTap: () => onImagePicked(),
+                child: CircleAvatar(
+                  radius: avatarRadius,
+                  backgroundImage: imageFile != null
+                      ? FileImage(imageFile!)
+                      : AssetImage('assets/images/profile.png')
+                          as ImageProvider,
+                ),
               ),
               SizedBox(height: 10),
-              Text(
-                "Aditya",
-                style: TextStyle(
-                    color: AppColors1.textWhite, fontSize: fontSizeName),
-              ),
+              isEditing
+                  ? TextFormField(
+                      initialValue: username,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your username',
+                        hintStyle: TextStyle(color: AppColors1.textWhite),
+                      ),
+                      style: TextStyle(
+                          color: AppColors1.textWhite, fontSize: fontSizeName),
+                      onChanged: onUsernameChanged,
+                    )
+                  : Text(
+                      username,
+                      style: TextStyle(
+                          color: AppColors1.textWhite, fontSize: fontSizeName),
+                    ),
               SizedBox(height: 5),
               Text(
-                "johndoe@example.com",
+                email,
                 style: TextStyle(
                     color: AppColors1.textWhite, fontSize: fontSizeEmail),
               ),
@@ -133,7 +243,7 @@ class AccountSettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double fontSizeTitle = constraints.maxWidth * 0.06;
+        double fontSizeTitle = constraints.maxWidth * 0.05;
         double fontSizeItem = constraints.maxWidth * 0.04;
 
         return Container(
@@ -166,19 +276,7 @@ class AccountSettingsSection extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.email, color: AppColors1.textWhite),
                 title: Text(
-                  "Update Email",
-                  style: TextStyle(
-                      color: AppColors1.textWhite, fontSize: fontSizeItem),
-                ),
-                trailing:
-                    Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
-                onTap: () {},
-              ),
-              Divider(color: Colors.grey),
-              ListTile(
-                leading: Icon(Icons.phone, color: AppColors1.textWhite),
-                title: Text(
-                  "Update Phone Number",
+                  "Change Email",
                   style: TextStyle(
                       color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
@@ -195,13 +293,15 @@ class AccountSettingsSection extends StatelessWidget {
 }
 
 class OtherDetailsSection extends StatelessWidget {
-  // Fun to Logout from app
+  final Function onSignOut;
+
+  OtherDetailsSection({required this.onSignOut});
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double fontSizeTitle = constraints.maxWidth * 0.06;
+        double fontSizeTitle = constraints.maxWidth * 0.05;
         double fontSizeItem = constraints.maxWidth * 0.04;
 
         return Container(
@@ -232,9 +332,9 @@ class OtherDetailsSection extends StatelessWidget {
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.help, color: AppColors1.textWhite),
+                leading: Icon(Icons.privacy_tip, color: AppColors1.textWhite),
                 title: Text(
-                  "Help & Support",
+                  "Privacy Policy",
                   style: TextStyle(
                       color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
@@ -244,27 +344,20 @@ class OtherDetailsSection extends StatelessWidget {
               ),
               Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.exit_to_app, color: AppColors1.textWhite),
+                leading: Icon(Icons.logout, color: AppColors1.textWhite),
                 title: Text(
-                  "Logout",
+                  "Log Out",
                   style: TextStyle(
                       color: AppColors1.textWhite, fontSize: fontSizeItem),
                 ),
                 trailing:
                     Icon(Icons.arrow_forward_ios, color: AppColors1.textWhite),
-                onTap: () {
-                  signOut();
-                },
+                onTap: () => onSignOut(),
               ),
             ],
           ),
         );
       },
     );
-  }
-
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
   }
 }

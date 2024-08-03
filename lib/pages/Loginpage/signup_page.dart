@@ -1,10 +1,10 @@
-import 'package:avalon/Services/auth_service.dart';
 import 'package:avalon/Services/google_auth_service.dart';
 import 'package:avalon/pages/Home/home_page.dart';
 import 'package:avalon/pages/Home/main_home_page.dart';
 import 'package:avalon/pages/Loginpage/signin_page.dart';
 import 'package:avalon/theme/colors.dart';
 import 'package:avalon/utils/social_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,21 @@ class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _usernameController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
   String _errorMessage = '';
   String _successMessage = '';
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _usernameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                SizedBox(height: size.height * 0.1),
+                SizedBox(height: size.height * 0.05),
                 // Title
                 Text(
                   'Create Account',
@@ -68,11 +78,45 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: textColor2,
                   ),
                 ),
-                SizedBox(height: size.height * 0.06),
+                SizedBox(height: size.height * 0.03),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+                      // Enter Username Input Field
+                      TextFormField(
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 18,
+                            horizontal: 22,
+                          ),
+                          hintText: "Enter Username",
+                          labelText: "Username",
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter username';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.02),
                       // Enter Email Input Field
                       TextFormField(
                         controller: _emailController,
@@ -109,7 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           }
                         },
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      SizedBox(height: size.height * 0.02),
                       // Password Input Text Field
                       TextFormField(
                         controller: _passwordController,
@@ -158,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           }
                         },
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      SizedBox(height: size.height * 0.02),
                       // Confirm Password Input Text Field
                       TextFormField(
                         controller: _confirmPasswordController,
@@ -239,6 +283,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 await authService.registerWithEmailAndPassword(
                               _emailController.text,
                               _passwordController.text,
+                              _usernameController.text,
                             );
                             setState(() {
                               _isLoading = false;
@@ -249,6 +294,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 _emailController.clear();
                                 _passwordController.clear();
                                 _confirmPasswordController.clear();
+                                _usernameController.clear();
                               });
                               Future.delayed(Duration(seconds: 2), () {
                                 Navigator.push(
@@ -261,7 +307,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             } else if (result ==
                                 'Email is already registered. Please sign in.') {
                               setState(() {
-                                _errorMessage = result!;
+                                _errorMessage = result;
                               });
                             } else {
                               setState(() {
@@ -354,7 +400,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: size.height * 0.04),
+                SizedBox(height: size.height * 0.035),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -392,5 +438,36 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+}
+
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<String> registerWithEmailAndPassword(
+      String email, String password, String username) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = result.user;
+
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'email': email,
+          'username': username,
+        });
+        return 'success';
+      } else {
+        return 'Sign up failed. Please try again.';
+      }
+    } catch (e) {
+      if (e.toString().contains('email-already-in-use')) {
+        return 'Email is already registered. Please sign in.';
+      }
+      return 'Sign up failed. Please try again.';
+    }
   }
 }

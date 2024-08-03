@@ -1,3 +1,4 @@
+import 'package:avalon/pages/Screens/community.dart';
 import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -65,23 +66,23 @@ class _HomePageState extends State<HomePage> {
                             ExploreTab(
                                 text: 'Community',
                                 isSelected: false,
-                                nextPage: HomePage()),
-                            ExploreTab(
-                                text: 'Task',
-                                isSelected: false,
-                                nextPage: HomePage()),
-                            ExploreTab(
-                                text: 'News',
-                                isSelected: false,
-                                nextPage: HomePage()),
-                            ExploreTab(
-                                text: 'Updates',
-                                isSelected: false,
-                                nextPage: HomePage()),
-                            ExploreTab(
-                                text: 'Events',
-                                isSelected: false,
-                                nextPage: HomePage()),
+                                nextPage: ProjectListScreen()),
+                            // ExploreTab(
+                            //     text: 'Task',
+                            //     isSelected: false,
+                            //     nextPage: HomePage()),
+                            // ExploreTab(
+                            //     text: 'News',
+                            //     isSelected: false,
+                            //     nextPage: HomePage()),
+                            // ExploreTab(
+                            //     text: 'Updates',
+                            //     isSelected: false,
+                            //     nextPage: HomePage()),
+                            // ExploreTab(
+                            //     text: 'Events',
+                            //     isSelected: false,
+                            //     nextPage: HomePage()),
                             // Add more tabs as needed
                           ],
                         ),

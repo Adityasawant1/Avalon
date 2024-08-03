@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors1 {
+class AppColors2 {
   static const Color backgroundColor = Color(0xFF274D46);
   static const Color avatarBackgroundColor = Color(0xFF789F8A);
   static const Color weatherContainerColor = Color(0xFF51776F);
@@ -54,33 +54,38 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors1.backgroundColor,
+        backgroundColor: AppColors2.backgroundColor,
         appBar: AppBar(
           title: Center(
             child: Text(
               'COMMUNITY',
               style: TextStyle(
-                color: AppColors1.textWhite,
+                color: AppColors2.textWhite,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          backgroundColor: AppColors1.backgroundColor,
+          backgroundColor: AppColors2.backgroundColor,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: AppColors1.avatarBackgroundColor,
-                child: Icon(Icons.person, color: AppColors1.textWhite),
+                backgroundColor: AppColors2.avatarBackgroundColor,
+                child: Icon(Icons.person, color: AppColors2.textWhite),
               ),
             )
           ],
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundColor: AppColors1.avatarBackgroundColor,
-              child: Icon(Icons.grid_view_rounded, color: AppColors1.textWhite),
+              backgroundColor: AppColors2.avatarBackgroundColor,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: AppColors2.textWhite),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
           ),
         ),
@@ -93,7 +98,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      backgroundColor: AppColors1.weatherContainerColor,
+                      backgroundColor: AppColors2.weatherContainerColor,
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -110,7 +115,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColors1.textWhite,
+                              color: AppColors2.textWhite,
                             ),
                           ),
                           SizedBox(height: 5),
@@ -118,7 +123,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               projects[index].description,
-                              style: TextStyle(color: AppColors1.textWhite),
+                              style: TextStyle(color: AppColors2.textWhite),
                             ),
                           ),
                           SizedBox(height: 5),
@@ -135,7 +140,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             child: Text(
                               projects[index].ngoName,
                               style: TextStyle(
-                                color: AppColors1.avatarBackgroundColor,
+                                color: AppColors2.avatarBackgroundColor,
                               ),
                             ),
                           ),
@@ -172,7 +177,7 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10.0),
-      color: AppColors1.avatarBackgroundColor,
+      color: AppColors2.avatarBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -202,18 +207,18 @@ class ProjectCard extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors1.textWhite),
+                          color: AppColors2.textWhite),
                     ),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.description,
-                    style: TextStyle(color: AppColors1.textWhite),
+                    style: TextStyle(color: AppColors2.textWhite),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.ngoName,
-                    style: TextStyle(color: AppColors1.exploreTabSelectedColor),
+                    style: TextStyle(color: AppColors2.exploreTabSelectedColor),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,7 +227,7 @@ class ProjectCard extends StatelessWidget {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                            color: AppColors1.exploreTabSelectedColor,
+                            color: AppColors2.exploreTabSelectedColor,
                             borderRadius: BorderRadius.circular(50)),
                         child: IconButton(
                           icon: Icon(
@@ -236,14 +241,14 @@ class ProjectCard extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors1.backgroundColor),
+                            backgroundColor: AppColors2.backgroundColor),
                         onPressed: () {
                           // Add your "I'm in" button functionality here
                         },
                         child: Text(
                           "I'm in",
                           style: TextStyle(
-                              color: AppColors1.textWhite,
+                              color: AppColors2.textWhite,
                               fontSize: 15,
                               fontWeight: FontWeight.w700),
                         ),
