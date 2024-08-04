@@ -1,3 +1,4 @@
+import 'package:avalon/pages/Screens/RegisterNGOPage.dart';
 import 'package:avalon/pages/Screens/change_pass.dart';
 import 'package:avalon/pages/Screens/help_Page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -68,7 +69,7 @@ class AccountSection extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Text(
-            ' Aditay is gay',
+            ' Aditya is here',
             style: TextStyle(color: AppColors1.textWhite, fontSize: 18),
           ),
           const Text(
@@ -104,12 +105,17 @@ class SettingsSection extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.notifications, color: Colors.orange),
-            title: const Text('Push Notification',
+            leading: const Icon(Icons.account_circle, color: Colors.orange),
+            title: const Text('Register your NGO',
                 style: TextStyle(color: AppColors1.textWhite)),
             trailing: const Icon(Icons.arrow_forward_ios,
                 color: AppColors1.textWhite),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterNGOPage()),
+              );
+            },
           ),
           const Divider(color: Colors.grey),
           ListTile(
