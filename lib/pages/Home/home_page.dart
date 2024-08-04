@@ -1,3 +1,4 @@
+import 'package:avalon/pages/Home/main_home_page.dart';
 import 'package:avalon/pages/Screens/community.dart';
 import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                             ExploreTab(
                               text: 'Home',
                               isSelected: true,
-                              nextPage: HomePage(),
+                              nextPage: MainScreen(),
                             ),
                             ExploreTab(
                                 text: 'Community',
