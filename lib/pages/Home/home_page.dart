@@ -3,7 +3,6 @@ import 'package:avalon/pages/Screens/community.dart';
 import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-// Import the colors
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +15,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors1.backgroundColor,
+      drawer: _buildModernDrawer(context),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -34,17 +34,27 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundColor: AppColors1.avatarBackgroundColor,
-                    child: Icon(Icons.person, color: AppColors1.textWhite),
+                    child: Icon(Icons.more_vert_outlined,
+                        color: AppColors1.textWhite),
                   ),
                 )
               ],
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundColor: AppColors1.avatarBackgroundColor,
-                  child: Icon(Icons.grid_view_rounded,
-                      color: AppColors1.textWhite),
-                ),
+              leading: Builder(
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: AppColors1.avatarBackgroundColor,
+                      child: IconButton(
+                        icon: Icon(Icons.grid_view_rounded,
+                            color: AppColors1.textWhite),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             SliverToBoxAdapter(
@@ -102,6 +112,81 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildModernDrawer(BuildContext context) {
+    return Drawer(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors1.avatarBackgroundColor,
+              AppColors1.backgroundColor
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors1.avatarBackgroundColor,
+                    AppColors1.backgroundColor
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: AppColors1.avatarBackgroundColor,
+                      radius: 40,
+                      child: Icon(Icons.person,
+                          size: 40, color: AppColors1.textWhite),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Username',
+                      style:
+                          TextStyle(color: AppColors1.textWhite, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            _buildDrawerItem(context, Icons.home, 'Home', MainScreen()),
+            _buildDrawerItem(
+                context, Icons.group, 'Community', ProjectListScreen()),
+            _buildDrawerItem(context, Icons.settings, 'Settings', null),
+            Spacer(),
+            _buildDrawerItem(context, Icons.logout, 'Logout', null),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(
+      BuildContext context, IconData icon, String title, Widget? nextPage) {
+    return ListTile(
+      leading: Icon(icon, color: AppColors1.textWhite),
+      title: Text(title, style: TextStyle(color: AppColors1.textWhite)),
+      onTap: () {
+        if (nextPage != null) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => nextPage));
+        } else {
+          // Add your logout functionality or other navigation logic here
+        }
+      },
     );
   }
 }
