@@ -177,49 +177,47 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10.0),
-      color: AppColors2.avatarBackgroundColor,
+      color: Colors.grey[850], // Darker grey color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 5, left: 5),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  project.imagePath,
-                  width: 140,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                project.imagePath,
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 10.0),
+            SizedBox(width: 20),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    child: Text(
-                      project.name,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors2.textWhite),
+                  Text(
+                    project.name,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.description,
-                    style: TextStyle(color: AppColors2.textWhite),
+                    style: TextStyle(color: Colors.white),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.ngoName,
-                    style: TextStyle(color: AppColors2.exploreTabSelectedColor),
+                    style: TextStyle(color: Colors.white70),
                   ),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -227,30 +225,36 @@ class ProjectCard extends StatelessWidget {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                            color: AppColors2.exploreTabSelectedColor,
-                            borderRadius: BorderRadius.circular(50)),
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         child: IconButton(
                           icon: Icon(
                             project.isLiked
                                 ? Icons.arrow_upward
                                 : Icons.arrow_upward_outlined,
-                            color: project.isLiked ? Colors.green : Colors.grey,
+                            color: project.isLiked ? Colors.white : Colors.grey,
                           ),
                           onPressed: onLikeButtonPressed,
                         ),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors2.backgroundColor),
+                          backgroundColor: Colors.grey[850],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
                         onPressed: () {
                           // Add your "I'm in" button functionality here
                         },
                         child: Text(
                           "I'm in",
                           style: TextStyle(
-                              color: AppColors2.textWhite,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700),
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],

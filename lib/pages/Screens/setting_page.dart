@@ -1,4 +1,8 @@
+import 'package:avalon/pages/Screens/change_pass.dart';
+import 'package:avalon/pages/Screens/help_Page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AppColors1 {
   static const Color backgroundColor = Color(0xFF274D46);
@@ -64,7 +68,7 @@ class AccountSection extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Text(
-            'Rim Ayed',
+            ' Aditay is gay',
             style: TextStyle(color: AppColors1.textWhite, fontSize: 18),
           ),
           const Text(
@@ -109,21 +113,17 @@ class SettingsSection extends StatelessWidget {
           ),
           const Divider(color: Colors.grey),
           ListTile(
-            leading: const Icon(Icons.language, color: Colors.blue),
-            title: const Text('Language',
-                style: TextStyle(color: AppColors1.textWhite)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                color: AppColors1.textWhite),
-            onTap: () {},
-          ),
-          const Divider(color: Colors.grey),
-          ListTile(
             leading: const Icon(Icons.lock, color: Colors.green),
             title: const Text('Change Password',
                 style: TextStyle(color: AppColors1.textWhite)),
             trailing: const Icon(Icons.arrow_forward_ios,
                 color: AppColors1.textWhite),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+              );
+            },
           ),
           const Divider(color: Colors.grey),
           ListTile(
@@ -144,7 +144,12 @@ class SettingsSection extends StatelessWidget {
                 style: TextStyle(color: AppColors1.textWhite)),
             trailing: const Icon(Icons.arrow_forward_ios,
                 color: AppColors1.textWhite),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpPage()),
+              );
+            },
           ),
           const Divider(color: Colors.grey),
           ListTile(
@@ -153,10 +158,17 @@ class SettingsSection extends StatelessWidget {
                 style: TextStyle(color: AppColors1.textWhite)),
             trailing: const Icon(Icons.arrow_forward_ios,
                 color: AppColors1.textWhite),
-            onTap: () {},
+            onTap: () {
+              _signOut();
+            },
           ),
         ],
       ),
     );
+  }
+
+  void _signOut() {
+    FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
   }
 }
