@@ -1,4 +1,5 @@
 import 'package:avalon/pages/Home/home_page.dart';
+import 'package:avalon/pages/Screens/NGOs.dart';
 import 'package:avalon/pages/Screens/profile_page.dart';
 import 'package:avalon/pages/Screens/setting_page.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,12 @@ class _MainScreenState extends State<MainScreen> {
               text: 'Home',
             ),
             GButton(
-              icon: Icons.people_alt_rounded,
-              text: "NGO",
-            ),
-            GButton(
               icon: Icons.person,
               text: 'Profile',
+            ),
+            GButton(
+              icon: Icons.people_alt_rounded,
+              text: "NGO",
             ),
             GButton(
               icon: Icons.settings,
@@ -84,6 +85,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           HomePage(),
           ProfilePage(),
+          CollaborationPage(),
           SettingsPage(),
         ],
       ),
