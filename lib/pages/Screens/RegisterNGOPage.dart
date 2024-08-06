@@ -109,7 +109,11 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
       try {
         await _firestore.collection('ngos').add(ngo.toMap());
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('NGO registered successfully!')),
+          SnackBar(
+              content: Text(
+            'NGO registered successfully!',
+            style: TextStyle(color: Colors.green),
+          )),
         );
         Navigator.pop(context);
       } catch (e) {

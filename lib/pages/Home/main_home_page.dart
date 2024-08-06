@@ -20,34 +20,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: AppColors2.backgroundColor,
-      //   elevation: 0,
-      //   title: Center(
-      //     child: Image.asset("assets/images/avalon.png",
-      //         width: size.width * 0.4, height: size.height * 0.5),
-      //   ),
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: CircleAvatar(
-      //         backgroundColor: AppColors2.avatarBackgroundColor,
-      //         child: Icon(Icons.person, color: AppColors2.textWhite),
-      //       ),
-      //     )
-      //   ],
-      //   leading: Padding(
-      //     padding: const EdgeInsets.all(8.0),
-      //     child: CircleAvatar(
-      //       backgroundColor: AppColors2.avatarBackgroundColor,
-      //       child: Icon(Icons.grid_view_rounded, color: AppColors2.textWhite),
-      //     ),
-      //   ),
-      // ),
-      backgroundColor: Color.fromARGB(255, 46, 92, 83),
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: GNav(
           haptic: true, // haptic feedback
-          tabBorderRadius: 15,
+          tabBorderRadius: 25,
           tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
           backgroundColor: Colors.transparent,
@@ -55,10 +31,9 @@ class _MainScreenState extends State<MainScreen> {
           curve: Curves.easeOutExpo, // tab animation curves
           duration: Duration(milliseconds: 500),
           gap: 5,
-          color: Colors.white,
-          activeColor: Colors.white,
-          tabBackgroundColor: Color.fromARGB(255, 64, 128, 114),
-          tabs: [
+          color: Colors.black87,
+          activeColor: Colors.green,
+          tabs: const [
             GButton(
               icon: Icons.home,
               text: 'Home',

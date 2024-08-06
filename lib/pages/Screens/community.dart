@@ -1,15 +1,5 @@
+import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
-
-class AppColors2 {
-  static const Color backgroundColor = Color(0xFF274D46);
-  static const Color avatarBackgroundColor = Color(0xFF789F8A);
-  static const Color weatherContainerColor = Color(0xFF51776F);
-  static const Color exploreTabSelectedColor = Colors.white;
-  static const Color exploreTabUnselectedColor = Color(0xFF789F8A);
-  static const Color textWhite = Colors.white;
-  static const Color textBlack = Colors.black;
-  static const Color deviceContainerColor = Color(0xFF789F8A);
-}
 
 class Project {
   final String name;
@@ -54,34 +44,34 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors2.backgroundColor,
+        backgroundColor: AppColors1.backgroundColor,
         appBar: AppBar(
           title: Center(
             child: Text(
               'COMMUNITY',
               style: TextStyle(
-                color: AppColors2.textWhite,
+                color: AppColors1.textWhite,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          backgroundColor: AppColors2.backgroundColor,
+          backgroundColor: AppColors1.backgroundColor,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: AppColors2.avatarBackgroundColor,
-                child: Icon(Icons.person, color: AppColors2.textWhite),
+                backgroundColor: AppColors1.avatarBackgroundColor,
+                child: Icon(Icons.person, color: AppColors1.textWhite),
               ),
             )
           ],
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundColor: AppColors2.avatarBackgroundColor,
+              backgroundColor: AppColors1.avatarBackgroundColor,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: AppColors2.textWhite),
+                icon: Icon(Icons.arrow_back, color: AppColors1.textWhite),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -98,7 +88,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      backgroundColor: AppColors2.weatherContainerColor,
+                      backgroundColor: AppColors1.weatherContainerColor,
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -115,7 +105,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColors2.textWhite,
+                              color: AppColors1.textWhite,
                             ),
                           ),
                           SizedBox(height: 5),
@@ -123,7 +113,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               projects[index].description,
-                              style: TextStyle(color: AppColors2.textWhite),
+                              style: TextStyle(color: AppColors1.textWhite),
                             ),
                           ),
                           SizedBox(height: 5),
@@ -140,7 +130,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                             child: Text(
                               projects[index].ngoName,
                               style: TextStyle(
-                                color: AppColors2.avatarBackgroundColor,
+                                color: AppColors1.avatarBackgroundColor,
                               ),
                             ),
                           ),
@@ -177,7 +167,7 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10.0),
-      color: Colors.grey[850], // Darker grey color
+      color: AppColors1.weatherContainerColor, // Darker grey color
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
