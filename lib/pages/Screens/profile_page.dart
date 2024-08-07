@@ -14,13 +14,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: Colors.green[400],
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: Colors.green[400],
         elevation: 0,
-        leading: Icon(Icons.arrow_back, color: AppColors.iconColor),
+        leading: Icon(Icons.arrow_back, color: Colors.black),
         actions: [
-          Icon(Icons.menu, color: AppColors.iconColor),
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/images/e1.png'),
+          ),
+          SizedBox(width: 10),
         ],
       ),
       body: SafeArea(

@@ -51,6 +51,13 @@ dependencies:
   image_picker: ^1.1.2
   http: ^1.2.2
   url_launcher: ^6.3.0
+  fl_chart: ^0.68.0
+  google_generative_ai: ^0.4.4
+  syncfusion_flutter_charts: ^26.2.8
+  animated_text_kit: ^4.2.2
+  responsive_sizer: ^3.3.1
+  font_awesome_flutter: ^10.7.0
+
   
   
     

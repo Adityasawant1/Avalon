@@ -1,4 +1,5 @@
 import 'package:avalon/utils/AppDrawer.dart';
+import 'package:avalon/utils/HomeCarousel.dart';
 import 'package:flutter/material.dart';
 import 'package:avalon/pages/Screens/community.dart';
 
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: AppDrawer(), // Use the AppDrawer here
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey.shade100,
         title: Center(
           child: Text(
             'A V A L O N',
@@ -28,62 +30,82 @@ class HomePage extends StatelessWidget {
           SizedBox(width: 10),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.04), // Responsive padding
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Which NGOs \nyou want to search?',
-              style: TextStyle(
-                fontSize: screenWidth * 0.06, // Responsive font size
-                fontWeight: FontWeight.w600,
-                color: Colors.grey.shade800,
-              ),
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blueGrey.shade100,
+                Colors.white,
+              ],
             ),
-            SizedBox(height: screenHeight * 0.02), // Responsive spacing
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            Text(
-              'Explore Nature',
-              style: TextStyle(
-                fontSize: screenWidth * 0.05, // Responsive font size
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.01),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  FilterChip(label: Text('All'), onSelected: (selected) {}),
-                  const SizedBox(width: 10),
-                  FilterChip(label: Text('Popular'), onSelected: (selected) {}),
-                  const SizedBox(width: 10),
-                  FilterChip(
-                    label: Text("Community"),
-                    onSelected: (selected) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProjectListScreen(),
-                      ),
-                    ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(screenWidth * 0.04), // Responsive padding
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Which NGOs \nyou want to search?',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.06, // Responsive font size
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.shade800,
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: screenHeight * 0.02), // Responsive spacing
+                TextFormField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Container(
+                    height: 193,
+                    width: MediaQuery.of(context).size.width,
+                    child: HomeCarousel()),
+                SizedBox(height: screenHeight * 0.02),
+                Text(
+                  'Explore Nature',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.05, // Responsive font size
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      FilterChip(label: Text('All'), onSelected: (selected) {}),
+                      const SizedBox(width: 10),
+                      FilterChip(
+                          label: Text('Popular'), onSelected: (selected) {}),
+                      const SizedBox(width: 10),
+                      FilterChip(
+                        label: Text("Community"),
+                        onSelected: (selected) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProjectListScreen(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
