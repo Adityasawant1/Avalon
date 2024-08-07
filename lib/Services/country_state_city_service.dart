@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 
 class CountryStateCityService {
   static const String _baseUrl = 'https://api.countrystatecity.in/v1';
-  static const String _apiKey = 'X-CSCAPI-KEY'; // Replace with your API key
+  static const String _apiKey =
+      'Sk80ZTJWMllCQjU1N1dDZjJ0emtPZGxiOTBTdXJDc0UzV0tYWWYybg=='; // Replace with your API key
 
   Future<List<dynamic>> fetchCountries() async {
     final response = await http.get(

@@ -1,48 +1,49 @@
 import 'package:avalon/pages/Screens/RegisterNGOPage.dart';
 import 'package:avalon/pages/Screens/change_pass.dart';
 import 'package:avalon/pages/Screens/help_Page.dart';
+import 'package:avalon/theme/inside_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-class AppColors1 {
-  static const Color backgroundColor = Color(0xFF274D46);
-  static const Color avatarBackgroundColor = Color(0xFF789F8A);
-  static const Color weatherContainerColor = Color(0xFF51776F);
-  static const Color exploreTabSelectedColor = Colors.white;
-  static const Color exploreTabUnselectedColor = Color(0xFF789F8A);
-  static const Color textWhite = Colors.white;
-  static const Color textBlack = Colors.black;
-  static const Color deviceContainerColor = Color(0xFF789F8A);
-}
 
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors1.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors1.backgroundColor,
+        backgroundColor: Colors.blueGrey.shade100,
         elevation: 0,
         title: const Text(
           'Settings',
-          style: TextStyle(color: AppColors1.textWhite, fontSize: 24),
+          style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors1.textWhite),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            AccountSection(),
-            const SizedBox(height: 20),
-            SettingsSection(),
-          ],
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blueGrey.shade100,
+                Colors.white,
+              ],
+            ),
+          ),
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              AccountSection(),
+              const SizedBox(height: 20),
+              SettingsSection(),
+            ],
+          ),
         ),
       ),
     );
@@ -55,9 +56,16 @@ class AccountSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors1.weatherContainerColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.green.shade100,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            )
+          ]),
       child: Column(
         children: [
           const CircleAvatar(
@@ -65,12 +73,12 @@ class AccountSection extends StatelessWidget {
             backgroundImage: AssetImage(
               'assets/images/settingprofile.png',
             ), // Replace with your image asset
-            backgroundColor: AppColors1.avatarBackgroundColor,
           ),
           const SizedBox(height: 10),
           const Text(
             ' Aditya is here',
-            style: TextStyle(color: AppColors1.textWhite, fontSize: 18),
+            style: TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
           ),
           const Text(
             'rima.ayed26@gmail.com',
@@ -80,7 +88,7 @@ class AccountSection extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors1.avatarBackgroundColor,
+              backgroundColor: Colors.green.shade400,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -99,17 +107,23 @@ class SettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors1.weatherContainerColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            )
+          ]),
       child: Column(
         children: [
           ListTile(
             leading: const Icon(Icons.account_circle, color: Colors.orange),
             title: const Text('Register your NGO',
-                style: TextStyle(color: AppColors1.textWhite)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                color: AppColors1.textWhite),
+                style: TextStyle(color: Colors.black)),
+            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
             onTap: () {
               Navigator.push(
                 context,
@@ -121,9 +135,8 @@ class SettingsSection extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.lock, color: Colors.green),
             title: const Text('Change Password',
-                style: TextStyle(color: AppColors1.textWhite)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                color: AppColors1.textWhite),
+                style: TextStyle(color: Colors.black)),
+            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
             onTap: () {
               Navigator.push(
                 context,
@@ -134,8 +147,8 @@ class SettingsSection extends StatelessWidget {
           const Divider(color: Colors.grey),
           ListTile(
             leading: const Icon(Icons.dark_mode, color: Colors.purple),
-            title: const Text('Dark Mode',
-                style: TextStyle(color: AppColors1.textWhite)),
+            title:
+                const Text('Dark Mode', style: TextStyle(color: Colors.black)),
             trailing: Switch(
               value: false,
               onChanged: (value) {},
@@ -146,10 +159,8 @@ class SettingsSection extends StatelessWidget {
           const Divider(color: Colors.grey),
           ListTile(
             leading: const Icon(Icons.help, color: Colors.red),
-            title: const Text('Help',
-                style: TextStyle(color: AppColors1.textWhite)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                color: AppColors1.textWhite),
+            title: const Text('Help', style: TextStyle(color: Colors.black)),
+            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
             onTap: () {
               Navigator.push(
                 context,
@@ -160,10 +171,8 @@ class SettingsSection extends StatelessWidget {
           const Divider(color: Colors.grey),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Logout',
-                style: TextStyle(color: AppColors1.textWhite)),
-            trailing: const Icon(Icons.arrow_forward_ios,
-                color: AppColors1.textWhite),
+            title: const Text('Logout', style: TextStyle(color: Colors.black)),
+            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
             onTap: () {
               _signOut();
             },

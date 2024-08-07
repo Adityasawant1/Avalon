@@ -1,15 +1,5 @@
+import 'package:avalon/theme/inside_color.dart';
 import 'package:flutter/material.dart';
-
-class AppColors2 {
-  static const Color backgroundColor = Color(0xFF274D46);
-  static const Color avatarBackgroundColor = Color(0xFF789F8A);
-  static const Color weatherContainerColor = Color(0xFF51776F);
-  static const Color exploreTabSelectedColor = Colors.white;
-  static const Color exploreTabUnselectedColor = Color(0xFF789F8A);
-  static const Color textWhite = Colors.white;
-  static const Color textBlack = Colors.black;
-  static const Color deviceContainerColor = Color(0xFF789F8A);
-}
 
 class Project {
   final String name;
@@ -54,112 +44,110 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors2.backgroundColor,
+        //backgroundColor: AppColors1.backgroundColor,
         appBar: AppBar(
+          backgroundColor: Colors.blueGrey.shade100,
           title: Center(
             child: Text(
               'COMMUNITY',
               style: TextStyle(
-                color: AppColors2.textWhite,
+                color: Colors.black,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          backgroundColor: AppColors2.backgroundColor,
+          // backgroundColor: AppColors1.backgroundColor,
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor: AppColors2.avatarBackgroundColor,
-                child: Icon(Icons.person, color: AppColors2.textWhite),
-              ),
-            )
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/images/e1.png'),
+            ),
+            SizedBox(width: 10),
           ],
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundColor: AppColors2.avatarBackgroundColor,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: AppColors2.textWhite),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blueGrey.shade100,
+                Colors.white,
+              ],
             ),
           ),
-        ),
-        body: ListView.builder(
-          itemCount: projects.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      backgroundColor: AppColors2.weatherContainerColor,
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              projects[index].imagePath,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            projects[index].name,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors2.textWhite,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              projects[index].description,
-                              style: TextStyle(color: AppColors2.textWhite),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'More Project Details',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              projects[index].ngoName,
-                              style: TextStyle(
-                                color: AppColors2.avatarBackgroundColor,
+          child: ListView.builder(
+            itemCount: projects.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        // backgroundColor: AppColors1.weatherContainerColor,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset(
+                                projects[index].imagePath,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: ProjectCard(
-                project: projects[index],
-                onLikeButtonPressed: () {
-                  setState(() {
-                    projects[index].isLiked = !projects[index].isLiked;
-                  });
+                            SizedBox(height: 10),
+                            Text(
+                              projects[index].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors1.textWhite,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                projects[index].description,
+                                style: TextStyle(color: AppColors1.textWhite),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'More Project Details',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                projects[index].ngoName,
+                                style: TextStyle(
+                                  color: AppColors1.avatarBackgroundColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
-              ),
-            );
-          },
+                child: ProjectCard(
+                  project: projects[index],
+                  onLikeButtonPressed: () {
+                    setState(() {
+                      projects[index].isLiked = !projects[index].isLiked;
+                    });
+                  },
+                ),
+              );
+            },
+          ),
         ));
   }
 }
@@ -175,11 +163,20 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: EdgeInsets.all(10.0),
-      color: Colors.grey[850], // Darker grey color
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+      //color: AppColors1.weatherContainerColor, // Darker grey color
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          )
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -204,18 +201,18 @@ class ProjectCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.description,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 5.0),
                   Text(
                     project.ngoName,
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -225,35 +222,54 @@ class ProjectCard extends StatelessWidget {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Colors.green.shade500,
                           borderRadius: BorderRadius.circular(50),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              spreadRadius: 1,
+                              blurRadius: 6,
+                              offset: Offset(3, 5),
+                            ),
+                          ],
                         ),
                         child: IconButton(
                           icon: Icon(
                             project.isLiked
                                 ? Icons.arrow_upward
                                 : Icons.arrow_upward_outlined,
-                            color: project.isLiked ? Colors.white : Colors.grey,
+                            color:
+                                project.isLiked ? Colors.white : Colors.black,
                           ),
                           onPressed: onLikeButtonPressed,
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[850],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                      Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            spreadRadius: 1,
+                            blurRadius: 6,
+                            offset: Offset(3, 5),
                           ),
-                        ),
-                        onPressed: () {
-                          // Add your "I'm in" button functionality here
-                        },
-                        child: Text(
-                          "I'm in",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
+                        ], borderRadius: BorderRadius.circular(30)),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade500,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () {
+                            // Add your "I'm in" button functionality here
+                          },
+                          child: Text(
+                            "I'm in",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
