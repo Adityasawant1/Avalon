@@ -67,10 +67,10 @@ class _HelpPageState extends State<HelpPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: [
-              HbackgroundColor2,
-              HbackgroundColor2,
-              HbackgroundColor4,
+              Colors.blueGrey.shade100,
+              Colors.white,
             ],
           ),
         ),
@@ -84,20 +84,20 @@ class _HelpPageState extends State<HelpPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 39,
-                    color: HtextColor1,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 20),
                 const Text(
                   'Frequently Asked Questions',
-                  style: TextStyle(color: HtextColor1, fontSize: 18),
+                  style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
                 ...faqs.map((faq) => FaqItem(faq: faq)).toList(),
                 const SizedBox(height: 20),
                 const Text(
                   'We are here to help!',
-                  style: TextStyle(color: HtextColor1, fontSize: 18),
+                  style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
                 Form(
@@ -112,16 +112,15 @@ class _HelpPageState extends State<HelpPage> {
                             style: const TextStyle(color: HtextColor1),
                             decoration: InputDecoration(
                               labelText: 'Your Feedback',
-                              labelStyle: const TextStyle(color: Colors.grey),
-                              fillColor: Color(0xFF51776F),
+                              labelStyle: const TextStyle(color: Colors.black),
+                              fillColor: Color.fromARGB(255, 100, 121, 130),
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400),
+                                borderSide: BorderSide(color: Colors.black),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -156,15 +155,15 @@ class _HelpPageState extends State<HelpPage> {
                         style: const TextStyle(color: HtextColor1),
                         decoration: InputDecoration(
                           labelText: 'Your Email',
-                          labelStyle: const TextStyle(color: Colors.grey),
-                          fillColor: Color(0xFF51776F),
+                          labelStyle: const TextStyle(color: Colors.black),
+                          fillColor: Color.fromARGB(255, 100, 121, 130),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                            borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -182,7 +181,7 @@ class _HelpPageState extends State<HelpPage> {
                       ElevatedButton(
                         onPressed: _submitFeedback,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: HbuttonColor,
+                          backgroundColor: Colors.blueGrey.shade800,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -241,7 +240,7 @@ class _FaqItemState extends State<FaqItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColorsHelp.weatherContainerColor,
+      color: Colors.blueGrey.shade500,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -272,8 +271,5 @@ class _FaqItemState extends State<FaqItem> {
 }
 
 //color theme for this page
-const HbackgroundColor2 = Color(0xFF274D46);
-const HbackgroundColor4 = Color.fromARGB(255, 62, 93, 86);
+
 const HtextColor1 = Colors.white;
-const HtextColor2 = Color(0xFF789F8A);
-const HbuttonColor = Color(0xFF4c7273);

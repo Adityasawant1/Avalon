@@ -38,10 +38,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: [
-              backgroundColor2,
-              backgroundColor2,
-              backgroundColor4,
+              Colors.blueGrey.shade100,
+              Colors.white,
             ],
           ),
         ),
@@ -52,13 +52,23 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               children: [
                 SizedBox(height: size.height * 0.05),
                 // Title
-                Text(
-                  'Change Password',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 39,
-                    color: textColor1,
-                  ),
+                TweenAnimationBuilder(
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeIn,
+                  tween: Tween<double>(begin: 0, end: 1),
+                  builder: (context, double opacity, child) {
+                    return Opacity(
+                      opacity: opacity,
+                      child: Text(
+                        'Change Password',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 39,
+                          color: Colors.blueGrey.shade900,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: size.height * 0.03),
                 Form(
@@ -66,137 +76,174 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: Column(
                     children: [
                       // Current Password Input Field
-                      TextFormField(
-                        controller: _currentPasswordController,
-                        obscureText: !_isCurrentPasswordVisible,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter Current Password",
-                          labelText: "Current Password",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isCurrentPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isCurrentPasswordVisible =
-                                    !_isCurrentPasswordVisible;
-                              });
-                            },
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your current password';
-                          }
-                          return null;
+                      TweenAnimationBuilder(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (context, double opacity, child) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: child,
+                          );
                         },
+                        child: TextFormField(
+                          controller: _currentPasswordController,
+                          obscureText: !_isCurrentPasswordVisible,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18,
+                              horizontal: 22,
+                            ),
+                            hintText: "Enter Current Password",
+                            labelText: "Current Password",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isCurrentPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isCurrentPasswordVisible =
+                                      !_isCurrentPasswordVisible;
+                                });
+                              },
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your current password';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       // New Password Input Field
-                      TextFormField(
-                        controller: _newPasswordController,
-                        obscureText: !_isNewPasswordVisible,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter New Password",
-                          labelText: "New Password",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isNewPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isNewPasswordVisible = !_isNewPasswordVisible;
-                              });
-                            },
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your new password';
-                          }
-                          if (value.length < 6) {
-                            return 'Password must be at least 6 characters long';
-                          }
-                          return null;
+                      TweenAnimationBuilder(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (context, double opacity, child) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: child,
+                          );
                         },
+                        child: TextFormField(
+                          controller: _newPasswordController,
+                          obscureText: !_isNewPasswordVisible,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18,
+                              horizontal: 22,
+                            ),
+                            hintText: "Enter New Password",
+                            labelText: "New Password",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isNewPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isNewPasswordVisible =
+                                      !_isNewPasswordVisible;
+                                });
+                              },
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your new password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       // Confirm Password Input Field
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: !_isConfirmPasswordVisible,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Confirm Password",
-                          labelText: "Confirm Password",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isConfirmPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isConfirmPasswordVisible =
-                                    !_isConfirmPasswordVisible;
-                              });
-                            },
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please confirm your new password';
-                          }
-                          if (value != _newPasswordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
+                      TweenAnimationBuilder(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (context, double opacity, child) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: child,
+                          );
                         },
+                        child: TextFormField(
+                          controller: _confirmPasswordController,
+                          obscureText: !_isConfirmPasswordVisible,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18,
+                              horizontal: 22,
+                            ),
+                            hintText: "Confirm Password",
+                            labelText: "Confirm Password",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isConfirmPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isConfirmPasswordVisible =
+                                      !_isConfirmPasswordVisible;
+                                });
+                              },
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please confirm your new password';
+                            }
+                            if (value != _newPasswordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       SizedBox(height: size.height * 0.05),
                       if (_errorMessage.isNotEmpty)
@@ -216,35 +263,47 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           ),
                         ),
                       // Change Password Button
-                      GestureDetector(
-                        onTap: _changePassword,
-                        child: Container(
-                          height: size.height * 0.08,
-                          width: size.width * 0.8,
-                          decoration: BoxDecoration(
-                            color: buttonColor,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
+                      TweenAnimationBuilder(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (context, double opacity, child) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: child,
+                          );
+                        },
+                        child: GestureDetector(
+                          onTap: _changePassword,
+                          child: Container(
+                            height: size.height * 0.08,
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: buttonColor,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
                                   blurRadius: 5,
                                   spreadRadius: 0.5,
-                                  color: backgroundColor2),
-                            ],
-                          ),
-                          child: Center(
-                            child: _isLoading
-                                ? CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white),
-                                  )
-                                : Text(
-                                    "Change Password",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
+                                  color: backgroundColor2,
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: _isLoading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      "Change Password",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                       ),
