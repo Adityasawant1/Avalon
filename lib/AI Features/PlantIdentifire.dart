@@ -12,10 +12,46 @@ class PlantScannerPage extends StatefulWidget {
 
 class _PlantScannerPageState extends State<PlantScannerPage> {
   File? _selectedImage;
-  String? _plantInformation;
+  String _plantInformation = '';
   bool _isLoading = false;
+  bool _hasError = false;
+  String _errorMessage = '';
+  ScrollController _scrollController = ScrollController();
 
   final ImagePicker _picker = ImagePicker();
+
+  // Function to handle image selection from gallery or camera
+  Future<void> _selectImage() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Select from Gallery'),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  _getImageFromGallery();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  _getImageFromCamera();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Future<void> _getImageFromGallery() async {
     final XFile? pickedImage =
@@ -24,6 +60,22 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
     if (pickedImage != null) {
       setState(() {
         _selectedImage = File(pickedImage.path);
+        _hasError = false;
+        _errorMessage = '';
+      });
+      _analyzeImage();
+    }
+  }
+
+  Future<void> _getImageFromCamera() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+        _hasError = false;
+        _errorMessage = '';
       });
       _analyzeImage();
     }
@@ -36,29 +88,51 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
 
     setState(() {
       _isLoading = true;
+      _plantInformation = '';
     });
 
-    // Replace this with your actual API key
-    final apiKey =
-        'AIzaSyBnYrvIj1JVFmp2V8blLdM_OvJLsJn3a-0'; // <--- Add your actual API key here
-
-    // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+    final apiKey = 'AIzaSyBnYrvIj1JVFmp2V8blLdM_OvJLsJn3a-0';
     final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
     final imageBytes = await _selectedImage!.readAsBytes();
 
-    // Customize the text prompt for plant identification
     final prompt = TextPart(
         "Identify this plant and provide information about its characteristics, care requirements, and any interesting facts.");
     final imagePart = DataPart('image/jpeg', imageBytes);
 
-    final response = await model.generateContent([
-      Content.multi([prompt, imagePart])
-    ]);
+    try {
+      final response = model.generateContentStream([
+        Content.multi([prompt, imagePart])
+      ]);
+
+      await for (final chunk in response) {
+        // Update the text and scroll to the bottom in real-time
+        setState(() {
+          _plantInformation += chunk.text!;
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+          );
+        });
+      }
+    } catch (error) {
+      setState(() {
+        _hasError = true;
+        _errorMessage = error.toString();
+        _isLoading = false;
+      });
+      return;
+    }
 
     setState(() {
-      _plantInformation = response.text;
       _isLoading = false;
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -69,9 +143,10 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
         elevation: 0,
         title: const Text('Avalon Plant',
             style: TextStyle(color: Colors.white, fontSize: 30)),
-        backgroundColor: Colors.black, // Black AppBar
+        backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -91,9 +166,8 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                           Colors.white,
                         ],
                       ),
-                      border: Border.all(color: Colors.white), // Green border
-                      borderRadius:
-                          BorderRadius.circular(15), // Rounded corners
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
@@ -109,9 +183,10 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                   ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _getImageFromGallery,
+                  onPressed:
+                      _selectImage, // Use the new function to show options
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Black button
+                    backgroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 41, vertical: 18),
                     textStyle: const TextStyle(
@@ -120,8 +195,7 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                       color: Colors.white,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(15), // Rounded corners
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                   child: const Text('SELECT IMAGE'),
@@ -132,7 +206,7 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Black button
+                    backgroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 60, vertical: 18),
                     textStyle: const TextStyle(
@@ -141,24 +215,25 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                       color: Colors.white,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(15), // Rounded corners
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                   child: const Text('GO BACK'),
                 ),
                 const SizedBox(height: 20),
                 if (_isLoading)
-                  const CircularProgressIndicator(
-                    color: Colors.green, // Green loading indicator
+                  const CircularProgressIndicator(color: Colors.green),
+                if (_hasError)
+                  Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red),
                   ),
-                if (_plantInformation != null)
+                if (_plantInformation.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(10), // Rounded corners
-                      color: Colors.white, // White background
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
@@ -168,8 +243,9 @@ class _PlantScannerPageState extends State<PlantScannerPage> {
                       ],
                     ),
                     child: SingleChildScrollView(
+                      // Note: Wrap Text widget inside a scrollable area
                       child: Text(
-                        _plantInformation!,
+                        _plantInformation,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),

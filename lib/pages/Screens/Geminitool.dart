@@ -1,3 +1,4 @@
+import 'package:avalon/AI%20Features/AirPollution.dart';
 import 'package:avalon/AI%20Features/Glessure.dart';
 import 'package:avalon/AI%20Features/WaterPollution.dart';
 import 'package:avalon/pages/Home/main_home_page.dart';
@@ -290,7 +291,7 @@ class _Geminitool extends State<Geminitool>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const PlantScannerPage()),
+                                                  AirQualityScreen()),
                                         );
                                       },
                                       child: Container(
