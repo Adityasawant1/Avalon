@@ -433,7 +433,7 @@ class _SettingsSectionState extends State<SettingsSection> {
             leading: const Icon(Icons.logout, color: Colors.red),
             title: const Text('Logout', style: TextStyle(color: Colors.black)),
             onTap: () {
-              widget.onLogout();
+              _signOut();
             },
             // Add loading indicator
             trailing: widget.isSigningOut
@@ -443,5 +443,14 @@ class _SettingsSectionState extends State<SettingsSection> {
         ],
       ),
     );
+  }
+}
+
+Future<void> _signOut() async {
+  try {
+    await FirebaseAuth.instance.signOut();
+  } catch (e) {
+    // Handle sign out errors if needed
+    print('Error signing out: $e');
   }
 }

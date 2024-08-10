@@ -291,7 +291,7 @@ class _Geminitool extends State<Geminitool>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  AirQualityScreen()),
+                                                  AirQualityPage()),
                                         );
                                       },
                                       child: Container(
