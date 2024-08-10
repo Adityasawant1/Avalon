@@ -1,8 +1,7 @@
-import 'package:avalon/Services/country_state_city_service.dart';
+import 'package:avalon/utils/NGO_Reg_Model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:avalon/utils/NGO_Reg_Model.dart';
-import 'package:avalon/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterNGOPage extends StatefulWidget {
   @override
@@ -12,454 +11,135 @@ class RegisterNGOPage extends StatefulWidget {
 class _RegisterNGOPageState extends State<RegisterNGOPage> {
   final _formKey = GlobalKey<FormState>();
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   // Controllers for form fields
-  final _organizationNameController = TextEditingController();
-  final _organizationBioController = TextEditingController();
-  final _websiteController = TextEditingController();
-  final _contactDetailsController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _websiteController = TextEditingController();
+  final TextEditingController _contactDetailsController =
+      TextEditingController();
 
-  String? _selectedCategory;
-  String? _selectedCountry;
-  String? _selectedState;
-  String? _selectedCity;
-
-  List<dynamic> _countries = [];
-  List<dynamic> _states = [];
-  List<dynamic> _cities = [];
-
-  final CountryStateCityService _countryStateCityService =
-      CountryStateCityService();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCountries();
-  }
-
-  Future<void> _loadCountries() async {
-    try {
-      final countries = await _countryStateCityService.fetchCountries();
-      setState(() {
-        _countries = countries;
-      });
-    } catch (e) {
-      print('Error loading countries: $e');
-    }
-  }
-
-  Future<void> _loadStates(String countryCode) async {
-    try {
-      final states = await _countryStateCityService.fetchStates(countryCode);
-      setState(() {
-        _states = states;
-        _selectedState = null;
-        _cities = [];
-        _selectedCity = null;
-      });
-    } catch (e) {
-      print('Error loading states: $e');
-    }
-  }
-
-  Future<void> _loadCities(String countryCode, String stateCode) async {
-    try {
-      final cities =
-          await _countryStateCityService.fetchCities(countryCode, stateCode);
-      setState(() {
-        _cities = cities;
-        _selectedCity = null;
-      });
-    } catch (e) {
-      print('Error loading cities: $e');
-    }
-  }
-
-  @override
-  void dispose() {
-    _organizationNameController.dispose();
-    _organizationBioController.dispose();
-    _websiteController.dispose();
-    _contactDetailsController.dispose();
-    super.dispose();
-  }
-
-  // Predefined categories
-  final List<String> categories = [
-    'Environmental',
-    'Advocacy',
-    'Development',
-    'Humanitarian',
-  ];
-
-  Future<void> _registerNGO() async {
+  void _registerNGO() async {
     if (_formKey.currentState!.validate()) {
-      // Create NGO object
-      NGO ngo = NGO(
-        organizationName: _organizationNameController.text,
-        organizationBio: _organizationBioController.text,
-        category: _selectedCategory!,
-        country: _selectedCountry ?? '',
-        location: '$_selectedState, $_selectedCity',
+      // Get the current user's UID
+      final User? user = _auth.currentUser;
+
+      // Create a new NGO instance
+      NGO newNGO = NGO(
+        organizationName: _nameController.text,
+        organizationBio: _bioController.text,
+        category: _categoryController.text,
+        country: _countryController.text,
+        location: _locationController.text,
         website: _websiteController.text,
         contactDetails: _contactDetailsController.text,
+        ownerId: user?.uid, // Set the ownerId to the current user's UID
       );
 
-      // Save to Firestore
-      try {
-        await _firestore.collection('ngos').add(ngo.toMap());
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-            'NGO registered successfully!',
-            style: TextStyle(color: Colors.green),
-          )),
-        );
-        Navigator.pop(context);
-      } catch (e) {
-        print(e);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to register NGO. Please try again.')),
-        );
-      }
+      // Save the NGO to Firestore
+      await _firestore.collection('ngos').add(newNGO.toMap());
+
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('NGO registered successfully!')),
+      );
+
+      // Clear the form
+      _formKey.currentState!.reset();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        width: size.width,
-        height: size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              backgroundColor2,
-              backgroundColor2,
-              backgroundColor4,
-            ],
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
+      appBar: AppBar(
+        title: Text('Register NGO'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: size.height * 0.05),
-                // Title
-                Text(
-                  'Register Your NGO',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 30,
-                    color: textColor1,
-                  ),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(labelText: 'Organization Name'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the organization name';
+                    }
+                    return null;
+                  },
                 ),
-                SizedBox(height: size.height * 0.03),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _organizationNameController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter Organization Name",
-                          labelText: "Organization Name",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the organization name';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      TextFormField(
-                        controller: _organizationBioController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter Organization Bio",
-                          labelText: "Organization Bio",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the organization bio';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      DropdownButtonFormField<String>(
-                        value: _selectedCategory,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Select Category",
-                          labelText: "Category",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        items: categories.map((String category) {
-                          return DropdownMenuItem<String>(
-                            value: category,
-                            child: Text(category),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedCategory = newValue;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a category';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      DropdownButtonFormField<String>(
-                        value: _selectedCountry,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Select Country",
-                          labelText: "Country",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        items: _countries.map((country) {
-                          return DropdownMenuItem<String>(
-                            value: country['iso2'],
-                            child: Text(country['name']),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedCountry = newValue;
-                            if (newValue != null) {
-                              _loadStates(newValue);
-                            }
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a country';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      DropdownButtonFormField<String>(
-                        value: _selectedState,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Select State",
-                          labelText: "State",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        items: _states.map((state) {
-                          return DropdownMenuItem<String>(
-                            value: state['iso2'],
-                            child: Text(state['name']),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedState = newValue;
-                            if (newValue != null && _selectedCountry != null) {
-                              _loadCities(_selectedCountry!, newValue);
-                            }
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a state';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      DropdownButtonFormField<String>(
-                        value: _selectedCity,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Select City",
-                          labelText: "City",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        items: _cities.map((city) {
-                          return DropdownMenuItem<String>(
-                            value: city['name'],
-                            child: Text(city['name']),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedCity = newValue;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a city';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      TextFormField(
-                        controller: _websiteController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter Website URL",
-                          labelText: "Website",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the website URL';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      TextFormField(
-                        controller: _contactDetailsController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 22,
-                          ),
-                          hintText: "Enter Contact Details",
-                          labelText: "Contact Details",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter contact details';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.04),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: _registerNGO,
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: buttonColor, // Text color
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                    ],
-                  ),
+                TextFormField(
+                  controller: _bioController,
+                  decoration: InputDecoration(labelText: 'Organization Bio'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the organization bio';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _categoryController,
+                  decoration: InputDecoration(labelText: 'Category'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the category';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _countryController,
+                  decoration: InputDecoration(labelText: 'Country'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the country';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _locationController,
+                  decoration: InputDecoration(labelText: 'Location'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the location';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _websiteController,
+                  decoration: InputDecoration(labelText: 'Website'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the website';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _contactDetailsController,
+                  decoration: InputDecoration(labelText: 'Contact Details'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the contact details';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _registerNGO,
+                  child: Text('Register NGO'),
                 ),
               ],
             ),

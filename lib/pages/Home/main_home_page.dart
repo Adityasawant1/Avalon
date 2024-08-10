@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
           HomePage(),
           Geminitool(),
           CollaborationPage(),
-          ProfilePage(),
+          NGOProfilePage(),
           SettingsPage(),
         ],
       ),

@@ -1,191 +1,240 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class AppColors {
-  static const Color backgroundColor = Color(0xFF1B1E44);
-  static const Color cardBackgroundColor = Color(0xFFFFFFFF);
-  static const Color buttonColor = Color(0xFF1DA1F2);
-  static const Color textWhite = Colors.white;
-  static const Color textBlack = Colors.black;
-  static const Color iconColor = Colors.white;
+class NGOProfilePage extends StatefulWidget {
+  @override
+  _NGOProfilePageState createState() => _NGOProfilePageState();
 }
 
-class ProfilePage extends StatelessWidget {
+class _NGOProfilePageState extends State<NGOProfilePage> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  User? _user;
+  String _ngoName = '';
+  String _ngoBio = '';
+  bool _isOwner = false;
+  bool _hasNGO = false;
+
+  TextEditingController _campaignNameController = TextEditingController();
+  TextEditingController _campaignDescriptionController =
+      TextEditingController();
+  TextEditingController _campaignImageURLController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _auth.currentUser;
+    _fetchNGODetails();
+  }
+
+  Future<void> _fetchNGODetails() async {
+    if (_user == null) return;
+
+    QuerySnapshot ngoQuery = await _firestore
+        .collection('ngos')
+        .where('ownerId', isEqualTo: _user!.uid)
+        .limit(1)
+        .get();
+
+    if (ngoQuery.docs.isNotEmpty) {
+      DocumentSnapshot ngoDoc = ngoQuery.docs.first;
+      setState(() {
+        _ngoName = ngoDoc['organizationName'];
+        _ngoBio = ngoDoc['organizationBio'];
+        _isOwner = ngoDoc['ownerId'] == _user?.uid;
+        _hasNGO = true;
+      });
+    } else {
+      setState(() {
+        _hasNGO = false;
+        _ngoName =
+            _user!.displayName ?? 'User'; // Default to username if available
+        _ngoBio = ''; // Optionally set default bio or leave empty
+      });
+    }
+  }
+
+  Future<void> _editNGODetails() async {
+    if (_user == null) return;
+
+    // Navigate to edit page with current NGO details
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditNGODetailsPage(
+          ngoName: _ngoName,
+          ngoBio: _ngoBio,
+          onSave: (name, bio) async {
+            if (_user == null) return;
+
+            await _firestore.collection('ngos').doc(_user!.uid).update({
+              'organizationName': name,
+              'organizationBio': bio,
+            });
+
+            setState(() {
+              _ngoName = name;
+              _ngoBio = bio;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.green[400],
       appBar: AppBar(
-        backgroundColor: Colors.green[400],
-        elevation: 0,
-        leading: Icon(Icons.arrow_back, color: Colors.black),
-        actions: [
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/images/e1.png'),
-          ),
-          SizedBox(width: 10),
-        ],
+        title: Text('NGO Profile'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('assets/images/profile.png'),
+            ),
+            SizedBox(height: 16),
+            Text(
+              _ngoName.isNotEmpty ? _ngoName : 'Loading...',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              _ngoBio.isNotEmpty ? _ngoBio : 'Loading...',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 16),
+            if (_isOwner)
+              ElevatedButton(
+                onPressed: _editNGODetails,
+                child: Text('Edit NGO Details'),
               ),
-              Text(
-                'Travelers',
-                style: TextStyle(color: AppColors.textWhite, fontSize: 18),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'I make videos. Lots of videos',
-                style: TextStyle(color: AppColors.textWhite, fontSize: 14),
-              ),
-              SizedBox(height: 16),
-              Container(
-                width: double.infinity, // Use double.infinity for full width
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackgroundColor,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Augustine William',
-                      style: TextStyle(
-                        color: AppColors.textBlack,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+          ],
+        ),
+      ),
+      floatingActionButton: _hasNGO
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Upload Campaign'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: _campaignNameController,
+                            decoration:
+                                InputDecoration(labelText: 'Campaign Name'),
+                          ),
+                          TextField(
+                            controller: _campaignDescriptionController,
+                            decoration: InputDecoration(
+                                labelText: 'Campaign Description'),
+                          ),
+                          TextField(
+                            controller: _campaignImageURLController,
+                            decoration: InputDecoration(labelText: 'Image URL'),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.star,
-                            color: AppColors.buttonColor, size: 16),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              '1M',
-                              style: TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'Followers',
-                              style: TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '8',
-                              style: TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'Following',
-                              style: TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {},
-                          child: Text(
-                            'MESSAGE',
-                            style: TextStyle(
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: AppColors.textBlack),
-                          ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Cancel'),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            'FOLLOW',
-                            style: TextStyle(
-                              color: AppColors.textWhite,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.buttonColor,
-                          ),
+                          onPressed: () async {
+                            if (_user == null) return;
+
+                            await _firestore.collection('campaigns').add({
+                              'name': _campaignNameController.text,
+                              'description':
+                                  _campaignDescriptionController.text,
+                              'imageURL': _campaignImageURLController.text,
+                              'ngoName':
+                                  _ngoName, // Provide the NGO name dynamically
+                              'ownerId': _user?.uid,
+                            });
+
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content:
+                                      Text('Campaign uploaded successfully!')),
+                            );
+                          },
+                          child: Text('Upload'),
                         ),
                       ],
-                    ),
-                    SizedBox(height: 16),
-                    // Add demo posts using ListTile
-                    Column(
-                      children: List.generate(5, (index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: AppColors.cardBackgroundColor,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/profile.png'),
-                            ),
-                            title: Text(
-                              'Post Title $index',
-                              style: TextStyle(color: AppColors.textBlack),
-                            ),
-                            subtitle: Text(
-                              'This is a description of post $index.',
-                              style: TextStyle(color: AppColors.textBlack),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+                    );
+                  },
+                );
+              },
+              child: Icon(Icons.add),
+              tooltip: 'Upload Campaign',
+            )
+          : null, // Hide the FloatingActionButton if no NGO is registered
+    );
+  }
+}
+
+// Dummy EditNGODetailsPage for editing NGO details
+class EditNGODetailsPage extends StatelessWidget {
+  final String ngoName;
+  final String ngoBio;
+  final Function(String name, String bio) onSave;
+
+  final TextEditingController _nameController;
+  final TextEditingController _bioController;
+
+  EditNGODetailsPage({
+    required this.ngoName,
+    required this.ngoBio,
+    required this.onSave,
+  })  : _nameController = TextEditingController(text: ngoName),
+        _bioController = TextEditingController(text: ngoBio);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit NGO Details'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Organization Name'),
+            ),
+            TextField(
+              controller: _bioController,
+              decoration: InputDecoration(labelText: 'Organization Bio'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                onSave(
+                  _nameController.text,
+                  _bioController.text,
+                );
+                Navigator.pop(context);
+              },
+              child: Text('Save Changes'),
+            ),
+          ],
         ),
       ),
     );
