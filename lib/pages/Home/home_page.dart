@@ -1,4 +1,5 @@
 import 'package:avalon/pages/Screens/SearchResultPage.dart';
+
 import 'package:avalon/utils/AppDrawer.dart';
 import 'package:avalon/utils/HomeCarousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
