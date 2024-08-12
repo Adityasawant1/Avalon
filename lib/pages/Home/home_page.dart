@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:avalon/pages/Screens/community.dart';
 import 'package:avalon/utils/NGO_Reg_Model.dart';
 
+//looks like this
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
