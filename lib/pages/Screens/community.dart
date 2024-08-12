@@ -44,40 +44,48 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                campaign['imageURL'],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              campaign['name'],
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                campaign['description'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Uploaded by: ${campaign['ngoName']}',
-                                style: TextStyle(
-                                  color: Colors.blueGrey,
+                            // Error handling for missing imageURL
+                            if (campaign['imageURL'] != null)
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  campaign['imageURL'],
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
+                            SizedBox(height: 10),
+                            // Error handling for missing name
+                            if (campaign['name'] != null)
+                              Text(
+                                campaign['name'],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            SizedBox(height: 5),
+                            // Error handling for missing description
+                            if (campaign['description'] != null)
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  campaign['description'],
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            SizedBox(height: 5),
+                            // Error handling for missing ngoName
+                            if (campaign['ngoName'] != null)
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Uploaded by: ${campaign['ngoName']}',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       );
@@ -85,10 +93,12 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                   );
                 },
                 child: ProjectCard(
-                  name: campaign['name'],
-                  description: campaign['description'],
-                  imagePath: campaign['imageURL'],
-                  ngoName: campaign['ngoName'],
+                  name: campaign['name'] ?? 'Unknown', // Default name
+                  description: campaign['description'] ??
+                      'No description available', // Default description
+                  imagePath: campaign['imageURL'] ??
+                      'https://via.placeholder.com/150', // Default image
+                  ngoName: campaign['ngoName'] ?? 'Unknown', // Default ngoName
                 ),
               );
             },

@@ -1,14 +1,13 @@
 import 'package:avalon/pages/Screens/SearchResultPage.dart';
-
 import 'package:avalon/utils/AppDrawer.dart';
 import 'package:avalon/utils/HomeCarousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:avalon/pages/Screens/community.dart';
-
 import 'package:avalon/utils/NGO_Reg_Model.dart';
 
+//looks like this
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -54,7 +53,6 @@ class _HomePageState extends State<HomePage>
 
   void _onSearchChanged() {
     if (_searchController.text.isEmpty) {
-      // If search field is empty, clear the suggestions
       setState(() {
         _ngoSuggestions = [];
       });
@@ -229,27 +227,57 @@ class _HomePageState extends State<HomePage>
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 FilterChip(
-                                  label: Text('All'),
-                                  onSelected: (selected) {},
-                                ),
-                                const SizedBox(width: 10),
-                                FilterChip(
-                                  label: Text('Popular'),
-                                  onSelected: (selected) {},
-                                ),
-                                const SizedBox(width: 10),
-                                FilterChip(
-                                  label: Text("Community"),
-                                  onSelected: (selected) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProjectListScreen(),
-                                    ),
-                                  ),
+                                  label: Text("Campaign"),
+                                  onSelected: (selected) {
+                                    // No need to push to ProjectListScreen,
+                                    // We'll display the campaigns directly on the homepage
+                                  },
                                 ),
                               ],
                             ),
                           ),
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        // Display campaigns below the "Campaign" button
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('campaigns')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+
+                            final campaigns = snapshot.data?.docs;
+
+                            if (campaigns == null || campaigns.isEmpty) {
+                              return Center(child: Text('No campaigns found.'));
+                            }
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: campaigns.length,
+                              itemBuilder: (context, index) {
+                                var campaign = campaigns[index].data()
+                                    as Map<String, dynamic>;
+
+                                return ProjectCard(
+                                  name: campaign['name'] ?? 'Unknown',
+                                  description: campaign['description'] ??
+                                      'No description available',
+                                  imagePath: campaign['imageURL'] ??
+                                      'https://via.placeholder.com/150',
+                                  ngoName: campaign['ngoName'] ?? 'Unknown',
+                                );
+                              },
+                            );
+                          },
                         ),
                       ],
                     ),

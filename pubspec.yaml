@@ -53,7 +53,6 @@ dependencies:
   url_launcher: ^6.3.0
   fl_chart: ^0.68.0
   google_generative_ai: ^0.4.4
-  syncfusion_flutter_charts: ^26.2.8
   animated_text_kit: ^4.2.2
   responsive_sizer: ^3.3.1
   font_awesome_flutter: ^10.7.0
@@ -62,8 +61,21 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   shared_preferences: ^2.3.1
+  flutter_spinkit: ^5.2.1
+  flutter_launcher_icons: ^0.13.1
 
-  
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/LogoIconAvalon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/LogoIconAvalon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+
+ 
   
     
   

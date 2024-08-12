@@ -150,11 +150,16 @@ class _SettingsPageState extends State<SettingsPage>
       // Create a reference to the file in Firebase Storage
       Reference ref = storage.ref().child('profilePictures/${user?.uid}');
       // Upload the file to the reference
-      await ref.putFile(_selectedImage!);
-      // Get the download URL
-      String downloadURL = await ref.getDownloadURL();
-      // Update user's profile picture in the database
-      await user?.updatePhotoURL(downloadURL);
+      try {
+        await ref.putFile(_selectedImage!);
+        // Get the download URL
+        String downloadURL = await ref.getDownloadURL();
+        // Update user's profile picture in the database
+        await user?.updatePhotoURL(downloadURL);
+      } catch (e) {
+        print('Error uploading image: $e');
+        // Handle the error, for example, display a message to the user
+      }
     }
   }
 
