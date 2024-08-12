@@ -353,7 +353,7 @@ class _Geminitool extends State<Geminitool>
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                Waterpollution(),
+                                                WaterPollutionPage(),
                                           ),
                                         );
                                       },
@@ -411,7 +411,8 @@ class _Geminitool extends State<Geminitool>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Glessure(),
+                                            builder: (context) =>
+                                                GlessurePage(),
                                           ),
                                         );
                                       },
