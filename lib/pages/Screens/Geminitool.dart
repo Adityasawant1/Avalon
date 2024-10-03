@@ -74,7 +74,7 @@ class _Geminitool extends State<Geminitool>
         ),
         actions: const [
           CircleAvatar(
-            backgroundImage: AssetImage('assets/images/e1.png'),
+            backgroundImage: AssetImage('assets/images/LogoIconAvalon.png'),
           ),
           SizedBox(width: 10),
         ],
@@ -117,7 +117,7 @@ class _Geminitool extends State<Geminitool>
                                 Icon(Icons.mic, color: Colors.white),
                                 SizedBox(width: 8),
                                 Text(
-                                  'Voice rec',
+                                  'Talk with AI',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -164,7 +164,7 @@ class _Geminitool extends State<Geminitool>
                                 Icon(Icons.mood, color: Colors.white),
                                 SizedBox(width: 8),
                                 Text(
-                                  'Emotions ',
+                                  'Chat With AI ',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _Geminitool extends State<Geminitool>
                             ),
                             SizedBox(height: 8),
                             Text(
-                              'Take your sound of voice to analyze voice features...',
+                              'Text to analyze the Job research...',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.white,
@@ -247,7 +247,7 @@ class _Geminitool extends State<Geminitool>
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Scan Plant to',
+                                              'Search Career',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
@@ -255,7 +255,7 @@ class _Geminitool extends State<Geminitool>
                                             ),
                                             SizedBox(height: 8),
                                             Text(
-                                              'Care',
+                                              'Goals',
                                               style: TextStyle(
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.bold,
@@ -268,7 +268,7 @@ class _Geminitool extends State<Geminitool>
                                               backgroundColor:
                                                   Color(0xFFE0E0E0),
                                               child: Icon(
-                                                FontAwesomeIcons.seedling,
+                                                Icons.search,
                                                 color: Color.fromRGBO(
                                                     36, 36, 36, 1),
                                                 size: 20,
@@ -280,128 +280,128 @@ class _Geminitool extends State<Geminitool>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Material(
-                                    elevation: 5,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AirQualityPage()),
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blueGrey.shade500,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        padding: const EdgeInsets.all(16),
-                                        child: const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pollution',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            Text(
-                                              'AIR',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            CircleAvatar(
-                                              radius: 16,
-                                              backgroundColor:
-                                                  Color(0xFFE0E0E0),
-                                              child: Icon(
-                                                FontAwesomeIcons.wind,
-                                                color: Color(0xFF242424),
-                                                size: 21,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // const SizedBox(width: 16),
+                                // Expanded(
+                                //   child: Material(
+                                //     elevation: 5,
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     child: GestureDetector(
+                                //       onTap: () {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //               builder: (context) =>
+                                //                   AirQualityPage()),
+                                //         );
+                                //       },
+                                //       child: Container(
+                                //         decoration: BoxDecoration(
+                                //           color: Colors.blueGrey.shade500,
+                                //           borderRadius:
+                                //               BorderRadius.circular(10),
+                                //         ),
+                                //         padding: const EdgeInsets.all(16),
+                                //         child: const Column(
+                                //           crossAxisAlignment:
+                                //               CrossAxisAlignment.start,
+                                //           children: [
+                                //             Text(
+                                //               'Pollution',
+                                //               style: TextStyle(
+                                //                 fontSize: 14,
+                                //                 color: Colors.white,
+                                //               ),
+                                //             ),
+                                //             SizedBox(height: 8),
+                                //             Text(
+                                //               'AIR',
+                                //               style: TextStyle(
+                                //                 fontSize: 24,
+                                //                 fontWeight: FontWeight.bold,
+                                //                 color: Colors.white,
+                                //               ),
+                                //             ),
+                                //             SizedBox(height: 8),
+                                //             CircleAvatar(
+                                //               radius: 16,
+                                //               backgroundColor:
+                                //                   Color(0xFFE0E0E0),
+                                //               child: Icon(
+                                //                 FontAwesomeIcons.wind,
+                                //                 color: Color(0xFF242424),
+                                //                 size: 21,
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                             const SizedBox(height: 16),
                             Row(
                               children: [
-                                Expanded(
-                                  child: Material(
-                                    elevation: 5,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                WaterPollutionPage(),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blueGrey.shade500,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        padding: const EdgeInsets.all(16),
-                                        child: const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pollution',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            Text(
-                                              'WATER',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            CircleAvatar(
-                                              radius: 16,
-                                              backgroundColor:
-                                                  Color(0xFFE0E0E0),
-                                              child: Icon(
-                                                FontAwesomeIcons.droplet,
-                                                color: Color(0xFF242424),
-                                                size: 21,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
+                                // Expanded(
+                                //   child: Material(
+                                //     elevation: 5,
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     child: GestureDetector(
+                                //       onTap: () {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 WaterPollutionPage(),
+                                //           ),
+                                //         );
+                                //       },
+                                //       child: Container(
+                                //         decoration: BoxDecoration(
+                                //           color: Colors.blueGrey.shade500,
+                                //           borderRadius:
+                                //               BorderRadius.circular(10),
+                                //         ),
+                                //         padding: const EdgeInsets.all(16),
+                                //         child: const Column(
+                                //           crossAxisAlignment:
+                                //               CrossAxisAlignment.start,
+                                //           children: [
+                                //             Text(
+                                //               'Pollution',
+                                //               style: TextStyle(
+                                //                 fontSize: 14,
+                                //                 color: Colors.white,
+                                //               ),
+                                //             ),
+                                //             SizedBox(height: 8),
+                                //             Text(
+                                //               'WATER',
+                                //               style: TextStyle(
+                                //                 fontSize: 24,
+                                //                 fontWeight: FontWeight.bold,
+                                //                 color: Colors.white,
+                                //               ),
+                                //             ),
+                                //             SizedBox(height: 8),
+                                //             CircleAvatar(
+                                //               radius: 16,
+                                //               backgroundColor:
+                                //                   Color(0xFFE0E0E0),
+                                //               child: Icon(
+                                //                 FontAwesomeIcons.droplet,
+                                //                 color: Color(0xFF242424),
+                                //                 size: 21,
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+
                                 Expanded(
                                   child: Material(
                                     elevation: 5,
@@ -428,7 +428,7 @@ class _Geminitool extends State<Geminitool>
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Pollution',
+                                              'Generate',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
@@ -436,7 +436,7 @@ class _Geminitool extends State<Geminitool>
                                             ),
                                             SizedBox(height: 8),
                                             Text(
-                                              'GLESSURE',
+                                              'Roadmaps',
                                               style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.bold,
@@ -449,7 +449,7 @@ class _Geminitool extends State<Geminitool>
                                               backgroundColor:
                                                   Color(0xFFE0E0E0),
                                               child: Icon(
-                                                FontAwesomeIcons.icicles,
+                                                Icons.rocket,
                                                 color: Color(0xFF242424),
                                                 size: 21,
                                               ),

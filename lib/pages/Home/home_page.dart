@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage>
             snap: true,
             title: Center(
               child: Text(
-                'A V A L O N',
+                'C A R I A',
                 style: TextStyle(
                   fontSize: screenWidth * 0.08,
                   fontWeight: FontWeight.bold,
@@ -123,7 +123,9 @@ class _HomePageState extends State<HomePage>
             ),
             actions: [
               CircleAvatar(
-                backgroundImage: AssetImage('assets/images/e1.png'),
+                backgroundImage: AssetImage(
+                  'assets/images/LogoIconAvalon.png',
+                ),
               ),
               SizedBox(width: 10),
             ],
@@ -150,7 +152,7 @@ class _HomePageState extends State<HomePage>
                         SlideTransition(
                           position: _slideAnimation,
                           child: Text(
-                            'Which NGOs \nyou want to search?',
+                            'Which Job role \nyou want to search?',
                             style: TextStyle(
                               fontSize: screenWidth * 0.06,
                               fontWeight: FontWeight.w600,
@@ -202,7 +204,7 @@ class _HomePageState extends State<HomePage>
                         SlideTransition(
                           position: _slideAnimation,
                           child: Container(
-                            height: 193,
+                            height: 236,
                             width: screenWidth,
                             child: HomeCarousel(),
                           ),
@@ -211,7 +213,7 @@ class _HomePageState extends State<HomePage>
                         SlideTransition(
                           position: _slideAnimation,
                           child: Text(
-                            'Explore Nature',
+                            'Explore Jobs',
                             style: TextStyle(
                               fontSize: screenWidth * 0.05,
                               fontWeight: FontWeight.bold,
@@ -227,7 +229,7 @@ class _HomePageState extends State<HomePage>
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 FilterChip(
-                                  label: Text("Campaign"),
+                                  label: Text("Trend"),
                                   onSelected: (selected) {
                                     // No need to push to ProjectListScreen,
                                     // We'll display the campaigns directly on the homepage

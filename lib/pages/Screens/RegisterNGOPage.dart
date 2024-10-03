@@ -57,7 +57,7 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register NGO'),
+        title: Text('Registration'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,7 +68,7 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
               children: [
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Organization Name'),
+                  decoration: InputDecoration(labelText: 'Name'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the organization name';
@@ -78,7 +78,7 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
                 ),
                 TextFormField(
                   controller: _bioController,
-                  decoration: InputDecoration(labelText: 'Organization Bio'),
+                  decoration: InputDecoration(labelText: 'Qualification'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the organization bio';
@@ -118,7 +118,7 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
                 ),
                 TextFormField(
                   controller: _websiteController,
-                  decoration: InputDecoration(labelText: 'Website'),
+                  decoration: InputDecoration(labelText: 'Resume'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the website';
@@ -128,7 +128,8 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
                 ),
                 TextFormField(
                   controller: _contactDetailsController,
-                  decoration: InputDecoration(labelText: 'Contact Details'),
+                  decoration: InputDecoration(
+                      labelText: 'Additional Hobby Information'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the contact details';
@@ -139,7 +140,7 @@ class _RegisterNGOPageState extends State<RegisterNGOPage> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _registerNGO,
-                  child: Text('Register NGO'),
+                  child: Text('Go For Text'),
                 ),
               ],
             ),

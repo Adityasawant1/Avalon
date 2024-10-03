@@ -253,7 +253,7 @@ class _NGOProfilePageState extends State<NGOProfilePage> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Campaigns',
+                                'Test',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white70,

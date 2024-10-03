@@ -386,7 +386,7 @@ class _SettingsSectionState extends State<SettingsSection> {
         children: [
           ListTile(
             leading: const Icon(Icons.account_circle, color: Colors.orange),
-            title: const Text('Register your NGO',
+            title: const Text('Register your Company',
                 style: TextStyle(color: Colors.black)),
             trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
             onTap: () {

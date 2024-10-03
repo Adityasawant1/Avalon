@@ -63,7 +63,7 @@ class _AppDrawerState extends State<AppDrawer>
                   alignment: Alignment.bottomRight,
                   children: [
                     CircleAvatar(
-                      radius: screenWidth * 0.12,
+                      radius: screenWidth * 0.10,
                       backgroundImage: widget.selectedImage != null
                           ? FileImage(widget.selectedImage!)
                           : widget.user?.photoURL != null

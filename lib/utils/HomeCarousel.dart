@@ -13,9 +13,9 @@ class HomeCarousel extends StatefulWidget {
 
 class _HomeCarouselState extends State<HomeCarousel> {
   final List<String> imagePaths = [
-    'assets/images/C1.jpeg',
-    'assets/images/C2.jpeg',
-    'assets/images/e3.png',
+    'assets/images/c1.jpg',
+    'assets/images/c2.jpeg',
+    'assets/images/c3.jpeg',
   ];
 
   late List<Widget> _pages;

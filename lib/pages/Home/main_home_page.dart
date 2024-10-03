@@ -45,10 +45,10 @@ class _MainScreenState extends State<MainScreen> {
               iconSize: 20,
               text: 'Tools',
             ),
-            GButton(
-              icon: Icons.people_alt_rounded,
-              text: "NGO",
-            ),
+            // GButton(
+            //   icon: Icons.people_alt_rounded,
+            //   text: "NGO",
+            // ),
             GButton(
               icon: Icons.person,
               text: 'Profile',
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           HomePage(),
           Geminitool(),
-          CollaborationPage(),
+          //CollaborationPage(),
           NGOProfilePage(),
           SettingsPage(),
         ],

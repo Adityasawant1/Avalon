@@ -87,15 +87,15 @@ class _LoginPageState extends State<IntroPage> {
                 child: const Column(
                   children: [
                     Text(
-                      "Sustainable Living \nStarts with You",
+                      "Discover Your Path:\nTailored career solution by AI",
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 22,
                         fontWeight: FontWeight.w900,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "Work towards an inclusive, sustainable future \nthat benefits both people and the planet",
+                      "Unlock career opportunities aligned with your skills and the evolving job market",
                       style: TextStyle(
                         fontSize: 13.3,
                         fontWeight: FontWeight.w400,
